@@ -4,19 +4,19 @@ using System.Windows.Forms;
 
 namespace CapaPresentacion
 {
-    public partial class FrmReporteCategorias : Form
+    public partial class FrmReporteCliente : Form
     {
-        public FrmReporteCategorias()
+        public FrmReporteCliente()
         {
             InitializeComponent();
         }
 
-        private void FrmReporteCategorias_Load(object sender, EventArgs e)
+        private void FrmReporteCliente_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'dsPrincipal.spmostrar_categoria' table. You can move, or remove it, as needed.
+            // TODO: This line of code loads data into the 'dsPrincipal.spmostrar_cliente' table. You can move, or remove it, as needed.
             try
             {
-                this.spmostrar_categoriaTableAdapter.Fill(this.dsPrincipal.spmostrar_categoria);
+                this.spmostrar_clienteTableAdapter.Fill(this.dsPrincipal.spmostrar_cliente);
                 var configuracionPagina = new PageSettings();
                 configuracionPagina.Margins.Top = 0;
                 configuracionPagina.Margins.Right = 0;
@@ -28,10 +28,9 @@ namespace CapaPresentacion
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 this.reportViewer1.RefreshReport();
-                Utilidades.MensajeError(ex.Message);
             }
-
         }
     }
 }

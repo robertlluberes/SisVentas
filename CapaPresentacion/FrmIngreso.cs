@@ -448,5 +448,10 @@ namespace CapaPresentacion
             MostrarDetalles();
             tabControl1.SelectedIndex = 1;
         }
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

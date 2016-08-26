@@ -356,5 +356,11 @@ namespace CapaPresentacion
             HabilitarBotones();
             Limpiar();
         }
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            var formulario = new FrmReporteTrabajador();
+            formulario.Show();
+        }
     }
 }

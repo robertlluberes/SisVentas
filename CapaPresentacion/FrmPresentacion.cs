@@ -257,5 +257,11 @@ namespace CapaPresentacion
         {
 
         }
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            var Formulario = new FrmReportePresentacion();
+            Formulario.Show();
+        }
     }
 }

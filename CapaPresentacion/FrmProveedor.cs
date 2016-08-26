@@ -304,5 +304,11 @@ namespace CapaPresentacion
                 BuscarNumDocumento();
             }
         }
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            var formulario = new FrmReporteProveedor();
+            formulario.Show();
+        }
     }
 }

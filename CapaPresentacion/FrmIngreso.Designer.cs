@@ -76,7 +76,6 @@
             this.chkAnular = new System.Windows.Forms.CheckBox();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnAnular = new System.Windows.Forms.Button();
-            this.btnImprimir = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
@@ -525,7 +524,7 @@
             // lblTotal
             // 
             this.lblTotal.AutoSize = true;
-            this.lblTotal.Location = new System.Drawing.Point(591, 89);
+            this.lblTotal.Location = new System.Drawing.Point(757, 88);
             this.lblTotal.Name = "lblTotal";
             this.lblTotal.Size = new System.Drawing.Size(81, 13);
             this.lblTotal.TabIndex = 7;
@@ -555,22 +554,13 @@
             // btnAnular
             // 
             this.btnAnular.Enabled = false;
-            this.btnAnular.Location = new System.Drawing.Point(498, 45);
+            this.btnAnular.Location = new System.Drawing.Point(760, 49);
             this.btnAnular.Name = "btnAnular";
             this.btnAnular.Size = new System.Drawing.Size(103, 23);
             this.btnAnular.TabIndex = 3;
             this.btnAnular.Text = "&Anular";
             this.btnAnular.UseVisualStyleBackColor = true;
             this.btnAnular.Click += new System.EventHandler(this.btnEliminar_Click);
-            // 
-            // btnImprimir
-            // 
-            this.btnImprimir.Location = new System.Drawing.Point(607, 45);
-            this.btnImprimir.Name = "btnImprimir";
-            this.btnImprimir.Size = new System.Drawing.Size(103, 23);
-            this.btnImprimir.TabIndex = 4;
-            this.btnImprimir.Text = "&Imprimir";
-            this.btnImprimir.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -591,7 +581,6 @@
             this.tabPage1.Controls.Add(this.chkAnular);
             this.tabPage1.Controls.Add(this.btnBuscar);
             this.tabPage1.Controls.Add(this.btnAnular);
-            this.tabPage1.Controls.Add(this.btnImprimir);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -708,7 +697,6 @@
         private System.Windows.Forms.CheckBox chkAnular;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnAnular;
-        private System.Windows.Forms.Button btnImprimir;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabControl tabControl1;
