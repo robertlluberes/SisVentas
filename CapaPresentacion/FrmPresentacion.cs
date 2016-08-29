@@ -99,7 +99,7 @@ namespace CapaPresentacion
         {
             try
             {
-                string rpta = "";
+                string respuesta = "";
 
                 if (txtNombre.Text == string.Empty)
                 {
@@ -110,14 +110,14 @@ namespace CapaPresentacion
                 {
                     if (isNuevo)
                     {
-                        rpta = Npresentacion.Insertar(txtNombre.Text.Trim().ToUpper(), txtDescripcion.Text.Trim());
+                        respuesta = Npresentacion.Insertar(txtNombre.Text.Trim().ToUpper(), txtDescripcion.Text.Trim());
                     }
                     else
                     {
-                        rpta = Npresentacion.Editar(Convert.ToInt32(txtIdPresentacion.Text), txtNombre.Text.Trim().ToUpper(), txtDescripcion.Text.Trim());
+                        respuesta = Npresentacion.Editar(Convert.ToInt32(txtIdPresentacion.Text), txtNombre.Text.Trim().ToUpper(), txtDescripcion.Text.Trim());
                     }
 
-                    if (rpta.Equals("Ok"))
+                    if (respuesta.Equals("Ok"))
                     {
                         if (isNuevo)
                         {
@@ -130,7 +130,7 @@ namespace CapaPresentacion
                     }
                     else
                     {
-                        Utilidades.MensajeError(rpta);
+                        Utilidades.MensajeError(respuesta);
                     }
                     isNuevo = false;
                     isEditar = false;
@@ -214,22 +214,22 @@ namespace CapaPresentacion
                 if (opcion == DialogResult.Yes)
                 {
                     int IdCategoria = 0;
-                    string Rpta = "";
+                    string respuesta = "";
 
                     foreach (DataGridViewRow fila in dataListado.Rows)
                     {
                         if (Convert.ToBoolean(fila.Cells[0].Value))
                         {
                             IdCategoria = Convert.ToInt32(fila.Cells[1].Value);
-                            Rpta = Npresentacion.Eliminar(IdCategoria);
+                            respuesta = Npresentacion.Eliminar(IdCategoria);
 
-                            if (Rpta.Equals("Ok"))
+                            if (respuesta.Equals("Ok"))
                             {
                                 Utilidades.MensajeOK("La/s presentación/es se eleminaron correctamente.");
                             }
                             else
                             {
-                                Utilidades.MensajeError(Rpta);
+                                Utilidades.MensajeError(respuesta);
                             }
                         }
                     }

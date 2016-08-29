@@ -46,51 +46,44 @@ namespace CapaDatos
         //Metodo MetodoDisminuirStock
         public string DisminuirStock(int idDetalleIngreso, int cantidad)
         {
-            string rpta = "";
-            SqlConnection SqlCon = new SqlConnection();
+            string respuesta = "";
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
-                //Asignar y abrir StringConnection
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCon.Open();
+                //Abrir StringConnection               
+                conexionSql.Open();
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spdisminuir_stock]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spdisminuir_stock]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdDetalleIngrezo = new SqlParameter();
-                ParIdDetalleIngrezo.ParameterName = "@iddetalle_ingreso";
-                ParIdDetalleIngrezo.SqlDbType = SqlDbType.Int;
-                ParIdDetalleIngrezo.Value = idDetalleIngreso;
-                SqlCmd.Parameters.Add(ParIdDetalleIngrezo);
+                //Parametros para el comandoSql (StoreProcedure)
+                var parIdDetalleIngrezo = new SqlParameter("@iddetalle_ingreso", SqlDbType.Int);
+                parIdDetalleIngrezo.Value = idDetalleIngreso;
+                comandoSql.Parameters.Add(parIdDetalleIngrezo);
 
-                SqlParameter ParCantidad = new SqlParameter();
-                ParCantidad.ParameterName = "@cantidad";
-                ParCantidad.SqlDbType = SqlDbType.Int;
-                ParCantidad.Value = cantidad;
-                SqlCmd.Parameters.Add(ParCantidad);
+                var parCantidad = new SqlParameter("@cantidad", SqlDbType.Int);
+                parCantidad.Value = cantidad;
+                comandoSql.Parameters.Add(parCantidad);
 
 
-                //Ejecion del comando
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo actualizar el stock";
+                //Ejecucion del comando
+                respuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo actualizar el stock";
 
 
             }
             catch (Exception ex)
             {
-                rpta = ex.Message;
+                respuesta = ex.Message;
             }
             finally
             {
-                if (SqlCon.State == ConnectionState.Open)
-                    SqlCon.Close();
+                if (conexionSql.State == ConnectionState.Open)
+                    conexionSql.Close();
             }
 
-            return rpta;
+            return respuesta;
         }
 
         #endregion
@@ -101,100 +94,77 @@ namespace CapaDatos
         public string Insertar(Dventa Venta, List<DdetalleVenta> Detalle)
         {
 
-            string rpta = "";
-            SqlConnection SqlCon = new SqlConnection();
+            string respuesta = "";
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
-                //Asignar y abrir StringConnection
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCon.Open();
+                //Abrir StringConnection
+                conexionSql.Open();
 
                 //Establecer la transaccion
-                SqlTransaction SqlTra = SqlCon.BeginTransaction();
+                var transaccionSql = conexionSql.BeginTransaction();
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.Transaction = SqlTra;
-                SqlCmd.CommandText = "[spinsertar_venta]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spinsertar_venta]", conexionSql, transaccionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdVenta = new SqlParameter();
-                ParIdVenta.ParameterName = "@idventa";
-                ParIdVenta.SqlDbType = SqlDbType.Int;
-                ParIdVenta.Direction = ParameterDirection.Output;
-                SqlCmd.Parameters.Add(ParIdVenta);
+                //Parametros para el comandoSql (StoreProcedure)
+                var parIdVenta = new SqlParameter("@idventa", SqlDbType.Int);
+                parIdVenta.Direction = ParameterDirection.Output;
+                comandoSql.Parameters.Add(parIdVenta);
 
-                SqlParameter ParIdCliente = new SqlParameter();
-                ParIdCliente.ParameterName = "@idcliente";
-                ParIdCliente.SqlDbType = SqlDbType.Int;
-                ParIdCliente.Value = Venta.IdCliente;
-                SqlCmd.Parameters.Add(ParIdCliente);
+                var parIdCliente = new SqlParameter("@idcliente", SqlDbType.Int);
+                parIdCliente.Value = Venta.IdCliente;
+                comandoSql.Parameters.Add(parIdCliente);
 
-                SqlParameter ParIdTrabajador = new SqlParameter();
-                ParIdTrabajador.ParameterName = "@idtrabajador";
-                ParIdTrabajador.SqlDbType = SqlDbType.Int;
-                ParIdTrabajador.Value = Venta.IdTrabajador;
-                SqlCmd.Parameters.Add(ParIdTrabajador);
+                var parIdTrabajador = new SqlParameter("@idtrabajador", SqlDbType.Int);
+                parIdTrabajador.Value = Venta.IdTrabajador;
+                comandoSql.Parameters.Add(parIdTrabajador);
 
-                SqlParameter ParFecha = new SqlParameter();
-                ParFecha.ParameterName = "@fecha";
-                ParFecha.SqlDbType = SqlDbType.Date;
-                ParFecha.Value = Venta.Fecha;
-                SqlCmd.Parameters.Add(ParFecha);
+                var parFecha = new SqlParameter("@fecha", SqlDbType.Date);
+                parFecha.Value = Venta.Fecha;
+                comandoSql.Parameters.Add(parFecha);
 
-                SqlParameter ParTipoComprobante = new SqlParameter();
-                ParTipoComprobante.ParameterName = "@tipo_comprobante";
-                ParTipoComprobante.SqlDbType = SqlDbType.VarChar;
-                ParTipoComprobante.Size = 20;
-                ParTipoComprobante.Value = Venta.TipoComprobante;
-                SqlCmd.Parameters.Add(ParTipoComprobante);
+                var parTipoComprobante = new SqlParameter("@tipo_comprobante", SqlDbType.VarBinary, 20);
+                parTipoComprobante.Value = Venta.TipoComprobante;
+                comandoSql.Parameters.Add(parTipoComprobante);
 
-                SqlParameter ParSerie = new SqlParameter();
-                ParSerie.ParameterName = "@serie";
-                ParSerie.SqlDbType = SqlDbType.VarChar;
-                ParSerie.Size = 4;
-                ParSerie.Value = Venta.Serie;
-                SqlCmd.Parameters.Add(ParSerie);
+                var parSerie = new SqlParameter("@serie", SqlDbType.VarChar, 4);
+                parSerie.Value = Venta.Serie;
+                comandoSql.Parameters.Add(parSerie);
 
-                SqlParameter ParCorrelativo = new SqlParameter();
-                ParCorrelativo.ParameterName = "@correlativo";
-                ParCorrelativo.SqlDbType = SqlDbType.VarChar;
-                ParCorrelativo.Size = 7;
-                ParCorrelativo.Value = Venta.Correlativo;
-                SqlCmd.Parameters.Add(ParCorrelativo);
+                var parCorrelativo = new SqlParameter("@correlativo", SqlDbType.VarChar, 7);
+                parCorrelativo.Value = Venta.Correlativo;
+                comandoSql.Parameters.Add(parCorrelativo);
 
-                SqlParameter ParItbis = new SqlParameter();
-                ParItbis.ParameterName = "@itbis";
-                ParItbis.SqlDbType = SqlDbType.Decimal;
-                ParItbis.Scale = 2;
-                ParItbis.Precision = 4;
-                ParItbis.Value = Venta.Itbis;
-                SqlCmd.Parameters.Add(ParItbis);
+                var parItbis = new SqlParameter("@itbis", SqlDbType.Decimal);
+                parItbis.Scale = 2;
+                parItbis.Precision = 4;
+                parItbis.Value = Venta.Itbis;
+                comandoSql.Parameters.Add(parItbis);
 
 
-                //Ejecion del comando
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo insertar el registro";
+                //Ejecucion del comando
+                respuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo insertar el registro";
 
-                if (rpta.Equals("Ok"))
+                if (respuesta.Equals("Ok"))
                 {
                     //Obtener el codigo (Id) del ingreso generado
-                    IdVenta = Convert.ToInt32(SqlCmd.Parameters["@idventa"].Value);
+                    IdVenta = Convert.ToInt32(comandoSql.Parameters["@idventa"].Value);
                     foreach (DdetalleVenta item in Detalle)
                     {
                         item.IdVenta = IdVenta;
                         //Llamar al mentodo Insertar de la Clase DdetalleIngreso
-                        rpta = item.Insertar(item, ref SqlCon, ref SqlTra);
-                        if (!rpta.Equals("Ok"))
+                        respuesta = item.Insertar(item, ref conexionSql, ref transaccionSql);
+                        if (!respuesta.Equals("Ok"))
                         {
                             break;
                         }
                         else //Si se insertan los detalles de ventas actualizamos el stock
                         {
-                            rpta = DisminuirStock(item.IdDetalleIngreso, item.Cantidad);
-                            if (rpta.Equals("Ok"))
+                            respuesta = DisminuirStock(item.IdDetalleIngreso, item.Cantidad);
+                            if (respuesta.Equals("Ok"))
                             {
                                 break;
                             }
@@ -203,28 +173,28 @@ namespace CapaDatos
 
 
                 }
-                if (rpta.Equals("Ok"))
+                if (respuesta.Equals("Ok"))
                 {
-                    SqlTra.Commit();
+                    transaccionSql.Commit();
                 }
                 else
                 {
-                    SqlTra.Rollback();
+                    transaccionSql.Rollback();
                 }
 
 
             }
             catch (Exception ex)
             {
-                rpta = ex.Message;
+                respuesta = ex.Message;
             }
             finally
             {
-                if (SqlCon.State == ConnectionState.Open)
-                    SqlCon.Close();
+                if (conexionSql.State == ConnectionState.Open)
+                    conexionSql.Close();
             }
 
-            return rpta;
+            return respuesta;
         }
         #endregion
 
@@ -233,45 +203,40 @@ namespace CapaDatos
         //Metodo Anular
         public string Eliminar(Dventa Venta)
         {
-            string rpta = "";
-            SqlConnection SqlCon = new SqlConnection();
+            string respuesta = "";
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
-                //Asignar y abrir StringConnection
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCon.Open();
+                //Abrir StringConnection
+                conexionSql.Open();
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[speliminar_venta]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[speliminar_venta]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdIVenta = new SqlParameter();
-                ParIdIVenta.ParameterName = "@idventa";
-                ParIdIVenta.SqlDbType = SqlDbType.Int;
-                ParIdIVenta.Value = Venta.IdVenta;
-                SqlCmd.Parameters.Add(ParIdIVenta);
+                //Parametros para el comandoSql (StoreProcedure)
+                var parIdIVenta = new SqlParameter("@idventa", SqlDbType.Int);
+                parIdIVenta.Value = Venta.IdVenta;
+                comandoSql.Parameters.Add(parIdIVenta);
 
 
-                //Ejecion del comando
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "Ok";
+                //Ejecucion del comando
+                respuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "Ok";
 
 
             }
             catch (Exception ex)
             {
-                rpta = ex.Message;
+                respuesta = ex.Message;
             }
             finally
             {
-                if (SqlCon.State == ConnectionState.Open)
-                    SqlCon.Close();
+                if (conexionSql.State == ConnectionState.Open)
+                    conexionSql.Close();
             }
 
-            return rpta;
+            return respuesta;
         }
 
         #endregion
@@ -282,28 +247,25 @@ namespace CapaDatos
         public DataTable Mostrar()
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("venta");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("venta");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spmostrar_venta]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand comandoSql = new SqlCommand("[spmostrar_venta]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                SqlDataAdapter SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
 
 
         }
@@ -315,44 +277,38 @@ namespace CapaDatos
         public DataTable BuscarFechas(string fechaInicio, string FechaFin)
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("venta");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("venta");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spbuscar_venta_fecha]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spbuscar_venta_fecha]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
                 //Parametros
-                SqlParameter ParFechaInicio = new SqlParameter();
+                var ParFechaInicio = new SqlParameter();
                 ParFechaInicio.ParameterName = "@fechaInicio";
                 ParFechaInicio.SqlDbType = SqlDbType.VarChar;
                 ParFechaInicio.Size = 20;
                 ParFechaInicio.Value = fechaInicio;
-                SqlCmd.Parameters.Add(ParFechaInicio);
+                comandoSql.Parameters.Add(ParFechaInicio);
 
-                SqlParameter ParFechaFin = new SqlParameter();
-                ParFechaFin.ParameterName = "@fechaFin";
-                ParFechaFin.SqlDbType = SqlDbType.VarChar;
-                ParFechaFin.Size = 20;
+                var ParFechaFin = new SqlParameter("@fechaFin", SqlDbType.VarChar, 20);
                 ParFechaFin.Value = FechaFin;
-                SqlCmd.Parameters.Add(ParFechaFin);
+                comandoSql.Parameters.Add(ParFechaFin);
 
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                var SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
         }
         #endregion
 
@@ -362,37 +318,31 @@ namespace CapaDatos
         public DataTable MostrarDetalles(string textoBuscar)
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("detalle_venta");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("detalle_venta");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spmostrar_detalle_venta]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spmostrar_detalle_venta]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
                 //Parametros
-                SqlParameter ParTextoBuscar = new SqlParameter();
-                ParTextoBuscar.ParameterName = "@textobuscar";
-                ParTextoBuscar.SqlDbType = SqlDbType.Int;
-                ParTextoBuscar.Value = textoBuscar;
-                SqlCmd.Parameters.Add(ParTextoBuscar);
+                var parTextoBuscar = new SqlParameter("@textobuscar", SqlDbType.Int);
+                parTextoBuscar.Value = textoBuscar;
+                comandoSql.Parameters.Add(parTextoBuscar);
 
 
-
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                SqlDataAdapter SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
         }
         #endregion
 
@@ -402,37 +352,32 @@ namespace CapaDatos
         public DataTable BuscarAritculoVentaNombre(string textoBuscar)
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("articulos");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("articulos");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spbuscararticulo_venta_nombre]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spbuscararticulo_venta_nombre]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
                 //Parametros
-                SqlParameter ParTextoBuscar = new SqlParameter();
-                ParTextoBuscar.ParameterName = "@textobuscar";
-                ParTextoBuscar.SqlDbType = SqlDbType.VarChar;
-                ParTextoBuscar.Value = textoBuscar;
-                SqlCmd.Parameters.Add(ParTextoBuscar);
+                var parTextoBuscar = new SqlParameter("@textobuscar", SqlDbType.VarChar);
+                parTextoBuscar.Value = textoBuscar;
+                comandoSql.Parameters.Add(parTextoBuscar);
 
 
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                SqlDataAdapter SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
         }
         #endregion
 
@@ -442,37 +387,32 @@ namespace CapaDatos
         public DataTable BuscarAritculoVentaCodigo(string textoBuscar)
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("articulos");
-            SqlConnection SqlCon = new SqlConnection();
+            var resutladoTabla = new DataTable("articulos");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spbuscararticulo_venta_codigo]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spbuscararticulo_venta_codigo]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
                 //Parametros
-                SqlParameter ParTextoBuscar = new SqlParameter();
-                ParTextoBuscar.ParameterName = "@textobuscar";
-                ParTextoBuscar.SqlDbType = SqlDbType.Int;
-                ParTextoBuscar.Value = textoBuscar;
-                SqlCmd.Parameters.Add(ParTextoBuscar);
+                var parTextoBuscar = new SqlParameter("@textobuscar", SqlDbType.Int);
+                parTextoBuscar.Value = textoBuscar;
+                comandoSql.Parameters.Add(parTextoBuscar);
 
 
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                SqlDataAdapter SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resutladoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resutladoTabla = null;
             }
 
-            return DtResultado;
+            return resutladoTabla;
         }
         #endregion
 

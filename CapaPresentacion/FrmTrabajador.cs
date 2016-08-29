@@ -164,22 +164,22 @@ namespace CapaPresentacion
                 if (opcion == DialogResult.Yes)
                 {
                     int IdTrabajador = 0;
-                    string Rpta = "";
+                    string respuesta = "";
 
                     foreach (DataGridViewRow fila in dataListado.Rows)
                     {
                         if (Convert.ToBoolean(fila.Cells[0].Value))
                         {
                             IdTrabajador = Convert.ToInt32(fila.Cells[1].Value);
-                            Rpta = Ntrabajador.Eliminar(IdTrabajador);
+                            respuesta = Ntrabajador.Eliminar(IdTrabajador);
 
-                            if (Rpta.Equals("Ok"))
+                            if (respuesta.Equals("Ok"))
                             {
                                 Utilidades.MensajeOK("El/los proveedor/es se eleminaron correctamente.");
                             }
                             else
                             {
-                                Utilidades.MensajeError(Rpta);
+                                Utilidades.MensajeError(respuesta);
                             }
                         }
                     }
@@ -251,7 +251,7 @@ namespace CapaPresentacion
         {
             try
             {
-                string rpta = "";
+                string respuesta = "";
 
                 if (txtNombre.Text == string.Empty)
                 {
@@ -297,16 +297,16 @@ namespace CapaPresentacion
                 {
                     if (isNuevo)
                     {
-                        rpta = Ntrabajador.Insertar(txtNombre.Text.Trim().ToUpper(), txtApellido.Text.Trim().ToUpper(), cbSexo.Text, dtFechaNacimineto.Value,
+                        respuesta = Ntrabajador.Insertar(txtNombre.Text.Trim().ToUpper(), txtApellido.Text.Trim().ToUpper(), cbSexo.Text, dtFechaNacimineto.Value,
                              txtNumDocumento.Text, txtDireccion.Text, mtxtTelefono.Text, txtEmail.Text, cbPerfilUsuario.Text, txtUsuario.Text, txtPassword.Text);
                     }
                     else
                     {
-                        rpta = Ntrabajador.Editar(Convert.ToInt32(txtIdTrabajador.Text), txtNombre.Text.Trim().ToUpper(), txtApellido.Text.Trim().ToUpper(), cbSexo.Text, dtFechaNacimineto.Value,
+                        respuesta = Ntrabajador.Editar(Convert.ToInt32(txtIdTrabajador.Text), txtNombre.Text.Trim().ToUpper(), txtApellido.Text.Trim().ToUpper(), cbSexo.Text, dtFechaNacimineto.Value,
                              txtNumDocumento.Text, txtDireccion.Text, mtxtTelefono.Text, txtEmail.Text, cbPerfilUsuario.Text, txtUsuario.Text, txtPassword.Text);
                     }
 
-                    if (rpta.Equals("Ok"))
+                    if (respuesta.Equals("Ok"))
                     {
                         if (isNuevo)
                         {
@@ -319,7 +319,7 @@ namespace CapaPresentacion
                     }
                     else
                     {
-                        Utilidades.MensajeError($"No se agrego el trabajador:\n {rpta}");
+                        Utilidades.MensajeError($"No se agrego el trabajador:\n {respuesta}");
                     }
                     isNuevo = false;
                     isEditar = false;

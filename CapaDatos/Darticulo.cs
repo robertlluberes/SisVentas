@@ -43,65 +43,48 @@ namespace CapaDatos
         {
 
             string respuesta = "";
-            SqlConnection SqlCon = new SqlConnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
                 // abrir StringConnection
-                SqlCon.Open();
+                conexionSql.Open();
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand("[spinsertar_articulo]", SqlCon);
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spinsertar_articulo]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdArticulo = new SqlParameter();
-                ParIdArticulo.ParameterName = "@idarticulo";
-                ParIdArticulo.SqlDbType = SqlDbType.Int;
-                ParIdArticulo.Direction = ParameterDirection.Output;
-                SqlCmd.Parameters.Add(ParIdArticulo);
+                //Parametros para el comandoSql (StoreProcedure)
+                var parIdArticulo = new SqlParameter("@idarticulo", SqlDbType.Int);
+                parIdArticulo.Direction = ParameterDirection.Output;
+                comandoSql.Parameters.Add(parIdArticulo);
 
-                SqlParameter ParCodigo = new SqlParameter();
-                ParCodigo.ParameterName = "@codigo";
-                ParCodigo.SqlDbType = SqlDbType.VarChar;
-                ParCodigo.Size = 50;
-                ParCodigo.Value = Articulo.Codigo;
-                SqlCmd.Parameters.Add(ParCodigo);
+                var parCodigo = new SqlParameter("@codigo", SqlDbType.VarChar, 50);
+                parCodigo.Value = Articulo.Codigo;
+                comandoSql.Parameters.Add(parCodigo);
 
-                SqlParameter ParNombre = new SqlParameter();
-                ParNombre.ParameterName = "@nombre";
-                ParNombre.SqlDbType = SqlDbType.VarChar;
-                ParNombre.Size = 50;
-                ParNombre.Value = Articulo.Nombre;
-                SqlCmd.Parameters.Add(ParNombre);
+                var parNombre = new SqlParameter("@nombre", SqlDbType.VarChar, 50);
+                parNombre.Value = Articulo.Nombre;
+                comandoSql.Parameters.Add(parNombre);
 
-                SqlParameter ParDescripcion = new SqlParameter();
-                ParDescripcion.ParameterName = "@descripcion";
-                ParDescripcion.SqlDbType = SqlDbType.VarChar;
-                ParDescripcion.Size = 24;
-                ParDescripcion.Value = Articulo.Descripcion;
-                SqlCmd.Parameters.Add(ParDescripcion);
+                var parDescripcion = new SqlParameter("@descripcion", SqlDbType.VarChar, 24);
+                parDescripcion.Value = Articulo.Descripcion;
+                comandoSql.Parameters.Add(parDescripcion);
 
-                SqlParameter ParImagen = new SqlParameter();
-                ParImagen.ParameterName = "@imagen";
-                ParImagen.SqlDbType = SqlDbType.Image;
-                ParImagen.Value = Articulo.Imagen;
-                SqlCmd.Parameters.Add(ParImagen);
+                var parImagen = new SqlParameter("@imagen", SqlDbType.Image);
+                parImagen.Value = Articulo.Imagen;
+                comandoSql.Parameters.Add(parImagen);
 
-                SqlParameter ParIdCategoria = new SqlParameter();
-                ParIdCategoria.SqlDbType = SqlDbType.Int;
-                ParIdCategoria.ParameterName = "@idcategoria";
-                ParIdCategoria.Value = Articulo.IdCategoria;
-                SqlCmd.Parameters.Add(ParIdCategoria);
+                var parIdCategoria = new SqlParameter("@idcategoria", SqlDbType.Int);
+                parIdCategoria.Value = Articulo.IdCategoria;
+                comandoSql.Parameters.Add(parIdCategoria);
 
-                SqlParameter ParIdPresentacion = new SqlParameter();
-                ParIdPresentacion.ParameterName = "@idpresentacion";
-                ParIdPresentacion.SqlDbType = SqlDbType.Int;
-                ParIdPresentacion.Value = Articulo.IdPresentacion;
-                SqlCmd.Parameters.Add(ParIdPresentacion);
+                var parIdPresentacion = new SqlParameter("@idpresentacion", SqlDbType.Int);
+                parIdPresentacion.Value = Articulo.IdPresentacion;
+                comandoSql.Parameters.Add(parIdPresentacion);
 
-                //Ejecion del comando
-                respuesta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo insertar el registro";
+                //Ejecucion del comando
+                respuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo insertar el registro";
 
 
             }
@@ -111,8 +94,8 @@ namespace CapaDatos
             }
             finally
             {
-                if (SqlCon.State == ConnectionState.Open)
-                    SqlCon.Close();
+                if (conexionSql.State == ConnectionState.Open)
+                    conexionSql.Close();
             }
 
             return respuesta;
@@ -124,83 +107,63 @@ namespace CapaDatos
         //Metodo Editar
         public string Editar(Darticulo Articulo)
         {
-            string rpta = "";
-            SqlConnection SqlCon = new SqlConnection();
+            string respuesta = "";
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
-                //Asignar y abrir StringConnection
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCon.Open();
+                //abrir StringConnection
+                conexionSql.Open();
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[speditar_articulo]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[speditar_articulo]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdArticulo = new SqlParameter();
-                ParIdArticulo.ParameterName = "@idarticulo";
-                ParIdArticulo.Value = Articulo.IdArticulo;
-                ParIdArticulo.SqlDbType = SqlDbType.Int;
-                SqlCmd.Parameters.Add(ParIdArticulo);
+                //Parametros para el comandoSql (StoreProcedure)
+                var parIdArticulo = new SqlParameter("@idarticulo", SqlDbType.Int);
+                parIdArticulo.Value = Articulo.IdArticulo;
+                comandoSql.Parameters.Add(parIdArticulo);
 
-                SqlParameter ParCodigo = new SqlParameter();
-                ParCodigo.ParameterName = "@codigo";
-                ParCodigo.SqlDbType = SqlDbType.VarChar;
-                ParCodigo.Size = 50;
-                ParCodigo.Value = Articulo.Codigo;
-                SqlCmd.Parameters.Add(ParCodigo);
+                var parCodigo = new SqlParameter("@codigo", SqlDbType.VarChar, 50);
+                parCodigo.Value = Articulo.Codigo;
+                comandoSql.Parameters.Add(parCodigo);
 
-                SqlParameter ParNombre = new SqlParameter();
-                ParNombre.ParameterName = "@nombre";
-                ParNombre.SqlDbType = SqlDbType.VarChar;
-                ParNombre.Size = 50;
-                ParNombre.Value = Articulo.Nombre;
-                SqlCmd.Parameters.Add(ParNombre);
+                var parNombre = new SqlParameter("@nombre", SqlDbType.VarChar, 50);
+                parNombre.Value = Articulo.Nombre;
+                comandoSql.Parameters.Add(parNombre);
 
-                SqlParameter ParDescripcion = new SqlParameter();
-                ParDescripcion.ParameterName = "@descripcion";
-                ParDescripcion.SqlDbType = SqlDbType.VarChar;
-                ParDescripcion.Size = 24;
-                ParDescripcion.Value = Articulo.Descripcion;
-                SqlCmd.Parameters.Add(ParDescripcion);
+                var parDescripcion = new SqlParameter("@descripcion", SqlDbType.VarChar, 24);
+                parDescripcion.Value = Articulo.Descripcion;
+                comandoSql.Parameters.Add(parDescripcion);
 
-                SqlParameter ParImagen = new SqlParameter();
-                ParImagen.ParameterName = "@imagen";
-                ParImagen.SqlDbType = SqlDbType.Image;
-                ParImagen.Value = Articulo.Imagen;
-                SqlCmd.Parameters.Add(ParImagen);
+                var parImagen = new SqlParameter("@imagen", SqlDbType.Image);
+                parImagen.Value = Articulo.Imagen;
+                comandoSql.Parameters.Add(parImagen);
 
-                SqlParameter ParIdCategoria = new SqlParameter();
-                ParIdCategoria.ParameterName = "@idcategoria";
-                ParIdCategoria.SqlDbType = SqlDbType.Int;
-                ParIdCategoria.Value = Articulo.IdCategoria;
-                SqlCmd.Parameters.Add(ParIdCategoria);
+                var parIdCategoria = new SqlParameter("@idcategoria", SqlDbType.Int);
+                parIdCategoria.Value = Articulo.IdCategoria;
+                comandoSql.Parameters.Add(parIdCategoria);
 
-                SqlParameter ParIdPresentacion = new SqlParameter();
-                ParIdPresentacion.ParameterName = "@idpresentacion";
-                ParIdPresentacion.Value = Articulo.IdPresentacion;
-                ParIdPresentacion.SqlDbType = SqlDbType.Int;
-                SqlCmd.Parameters.Add(ParIdPresentacion);
+                var parIdPresentacion = new SqlParameter("@idpresentacion", SqlDbType.Int);
+                parIdPresentacion.Value = Articulo.IdPresentacion;
+                comandoSql.Parameters.Add(parIdPresentacion);
 
-                //Ejecion del comando
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo editar el registro";
+                //Ejecucion del comando
+                respuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo editar el registro";
 
 
             }
             catch (Exception ex)
             {
-                rpta = ex.Message;
+                respuesta = ex.Message;
             }
             finally
             {
-                if (SqlCon.State == ConnectionState.Open)
-                    SqlCon.Close();
+                if (conexionSql.State == ConnectionState.Open)
+                    conexionSql.Close();
             }
 
-            return rpta;
+            return respuesta;
 
         }
         #endregion
@@ -210,45 +173,40 @@ namespace CapaDatos
         //Metodo Eliminar
         public string Eliminar(Darticulo Articulo)
         {
-            string rpta = "";
-            SqlConnection SqlCon = new SqlConnection();
+            string respuesta = "";
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
-                //Asignar y abrir StringConnection
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCon.Open();
+                //abrir StringConnection
+                conexionSql.Open();
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[speliminar_articulo]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[speliminar_articulo]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdArticulo = new SqlParameter();
-                ParIdArticulo.ParameterName = "@idarticulo";
-                ParIdArticulo.SqlDbType = SqlDbType.Int;
-                ParIdArticulo.Value = Articulo.IdArticulo;
-                SqlCmd.Parameters.Add(ParIdArticulo);
+                //Parametros para el comandoSql (StoreProcedure)
+                var parIdArticulo = new SqlParameter("@idarticulo", SqlDbType.Int);
+                parIdArticulo.Value = Articulo.IdArticulo;
+                comandoSql.Parameters.Add(parIdArticulo);
 
 
-                //Ejecion del comando
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo eliminar el registro";
+                //Ejecucion del comando
+                respuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo eliminar el registro";
 
 
             }
             catch (Exception ex)
             {
-                rpta = ex.Message;
+                respuesta = ex.Message;
             }
             finally
             {
-                if (SqlCon.State == ConnectionState.Open)
-                    SqlCon.Close();
+                if (conexionSql.State == ConnectionState.Open)
+                    conexionSql.Close();
             }
 
-            return rpta;
+            return respuesta;
         }
 
         #endregion
@@ -259,28 +217,26 @@ namespace CapaDatos
         public DataTable Mostrar()
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("articulo");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("articulo");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spmostrar_articulo]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                var comandoSql = new SqlCommand("[spmostrar_articulo]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
+
+                var SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
 
 
         }
@@ -292,37 +248,32 @@ namespace CapaDatos
         public DataTable BuscarNombre(Darticulo Articulo)
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("articulo");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("articulo");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spbuscar_articulo_nombre]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+
+                var comandoSql = new SqlCommand("[spbuscar_articulo_nombre]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
                 //Parametros
-                SqlParameter ParTextoBuscar = new SqlParameter();
-                ParTextoBuscar.ParameterName = "@textobuscar";
-                ParTextoBuscar.SqlDbType = SqlDbType.VarChar;
-                ParTextoBuscar.Size = 50;
+                var ParTextoBuscar = new SqlParameter("@textobuscar", SqlDbType.VarChar, 50);
                 ParTextoBuscar.Value = Articulo.TextoBuscar;
-                SqlCmd.Parameters.Add(ParTextoBuscar);
+                comandoSql.Parameters.Add(ParTextoBuscar);
 
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                var SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
         }
         #endregion
 
@@ -332,28 +283,25 @@ namespace CapaDatos
         public DataTable StockArticulos()
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("articulo");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("articulo");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spstock_articulos]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spstock_articulos]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                var SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
 
 
         }

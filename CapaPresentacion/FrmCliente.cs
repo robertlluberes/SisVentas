@@ -140,22 +140,22 @@ namespace CapaPresentacion
                 if (opcion == DialogResult.Yes)
                 {
                     int IdCliente = 0;
-                    string Rpta = "";
+                    string respuesta = "";
 
                     foreach (DataGridViewRow fila in dataListado.Rows)
                     {
                         if (Convert.ToBoolean(fila.Cells[0].Value))
                         {
                             IdCliente = Convert.ToInt32(fila.Cells[1].Value);
-                            Rpta = Ncliente.Eliminar(IdCliente);
+                            respuesta = Ncliente.Eliminar(IdCliente);
 
-                            if (Rpta.Equals("Ok"))
+                            if (respuesta.Equals("Ok"))
                             {
                                 Utilidades.MensajeOK("El/los clientes se eleminaron correctamente.");
                             }
                             else
                             {
-                                Utilidades.MensajeError(Rpta);
+                                Utilidades.MensajeError(respuesta);
                             }
                         }
                     }
@@ -224,7 +224,7 @@ namespace CapaPresentacion
         {
             try
             {
-                string rpta = "";
+                string respuesta = "";
 
                 if (txtNombre.Text == string.Empty)
                 {
@@ -253,16 +253,16 @@ namespace CapaPresentacion
                 {
                     if (isNuevo)
                     {
-                        rpta = Ncliente.Insertar(txtNombre.Text.Trim().ToUpper(), txtApellido.Text.Trim().ToUpper(), cbSexo.Text, dtFechaNacimineto.Value,
+                        respuesta = Ncliente.Insertar(txtNombre.Text.Trim().ToUpper(), txtApellido.Text.Trim().ToUpper(), cbSexo.Text, dtFechaNacimineto.Value,
                             cbTipoDocumento.Text, txtNumDocumento.Text, txtDireccion.Text, mtxtTelefono.Text, txtEmail.Text);
                     }
                     else
                     {
-                        rpta = Ncliente.Editar(Convert.ToInt32(txtIdCliente.Text), txtNombre.Text.Trim().ToUpper(), txtApellido.Text.Trim().ToUpper(),
+                        respuesta = Ncliente.Editar(Convert.ToInt32(txtIdCliente.Text), txtNombre.Text.Trim().ToUpper(), txtApellido.Text.Trim().ToUpper(),
                             cbSexo.Text, dtFechaNacimineto.Value, cbTipoDocumento.Text, txtNumDocumento.Text, txtDireccion.Text, mtxtTelefono.Text, txtEmail.Text);
                     }
 
-                    if (rpta.Equals("Ok"))
+                    if (respuesta.Equals("Ok"))
                     {
                         if (isNuevo)
                         {
@@ -275,7 +275,7 @@ namespace CapaPresentacion
                     }
                     else
                     {
-                        Utilidades.MensajeError(rpta);
+                        Utilidades.MensajeError(respuesta);
                     }
                     isNuevo = false;
                     isEditar = false;

@@ -194,22 +194,22 @@ namespace CapaPresentacion
                 if (opcion == DialogResult.Yes)
                 {
                     int IdIngreso = 0;
-                    string Rpta = "";
+                    string respuesta = "";
 
                     foreach (DataGridViewRow fila in dataListado.Rows)
                     {
                         if (Convert.ToBoolean(fila.Cells[0].Value))
                         {
                             IdIngreso = Convert.ToInt32(fila.Cells[1].Value);
-                            Rpta = Ningreso.Anular(IdIngreso);
+                            respuesta = Ningreso.Anular(IdIngreso);
 
-                            if (Rpta.Equals("Ok"))
+                            if (respuesta.Equals("Ok"))
                             {
                                 Utilidades.MensajeOK("El ingreso se anuló correctamente.");
                             }
                             else
                             {
-                                Utilidades.MensajeError(Rpta);
+                                Utilidades.MensajeError(respuesta);
                             }
                         }
                     }
@@ -287,7 +287,7 @@ namespace CapaPresentacion
         {
             try
             {
-                string rpta = "";
+                string respuesta = "";
 
                 if (txtIdProveedor.Text == string.Empty)
                 {
@@ -314,12 +314,12 @@ namespace CapaPresentacion
 
                     if (isNuevo)
                     {
-                        rpta = Ningreso.Insertar(idTrabajador, Convert.ToInt32(txtIdProveedor.Text), dtFechaIngresoAlmacen.Value,
+                        respuesta = Ningreso.Insertar(idTrabajador, Convert.ToInt32(txtIdProveedor.Text), dtFechaIngresoAlmacen.Value,
                             cbTipoComprobante.Text, txtSerie.Text, txtCorrelativo.Text, Convert.ToDecimal(txtItbis.Text), "ËMITIDO", dtDetalles
                             );
                     }
 
-                    if (rpta.Equals("Ok"))
+                    if (respuesta.Equals("Ok"))
                     {
                         if (isNuevo)
                         {
@@ -328,7 +328,7 @@ namespace CapaPresentacion
                     }
                     else
                     {
-                        Utilidades.MensajeError(rpta);
+                        Utilidades.MensajeError(respuesta);
                     }
 
                     isNuevo = false;

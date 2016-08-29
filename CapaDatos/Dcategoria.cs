@@ -41,58 +41,47 @@ namespace CapaDatos
         public string Insertar(Dcategoria Categoria)
         {
 
-            string rpta = "";
-            SqlConnection SqlCon = new SqlConnection();
+            string respuesta = "";
+            var conexionSql = new conexionSqlnection(Utilidades.conexion);
 
             try
             {
-                //Asignar y abrir StringConnection
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCon.Open();
+                // abrir StringConnection
+                conexionSql.Open();
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spinsertar_categoria]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spinsertar_categoria]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdCategoria = new SqlParameter();
-                ParIdCategoria.ParameterName = "@idcategoria";
-                ParIdCategoria.SqlDbType = SqlDbType.Int;
-                ParIdCategoria.Direction = ParameterDirection.Output;
-                SqlCmd.Parameters.Add(ParIdCategoria);
+                //Parametros para el comandoSql (StoreProcedure)
+                var parIdCategoria = new SqlParameter("@idcategoria", SqlDbType.Int);
+                parIdCategoria.Direction = ParameterDirection.Output;
+                comandoSql.Parameters.Add(parIdCategoria);
 
-                SqlParameter ParNombre = new SqlParameter();
-                ParNombre.ParameterName = "@nombre";
-                ParNombre.SqlDbType = SqlDbType.VarChar;
-                ParNombre.Size = 50;
-                ParNombre.Value = Categoria.Nombre;
-                SqlCmd.Parameters.Add(ParNombre);
+                var parNombre = new SqlParameter("@nombre", SqlDbType.VarChar, 50);
+                parNombre.Value = Categoria.Nombre;
+                comandoSql.Parameters.Add(parNombre);
 
-                SqlParameter ParDescripcion = new SqlParameter();
-                ParDescripcion.ParameterName = "@descripcion";
-                ParDescripcion.SqlDbType = SqlDbType.VarChar;
-                ParDescripcion.Size = 256;
-                ParDescripcion.Value = Categoria.Descripcion;
-                SqlCmd.Parameters.Add(ParDescripcion);
+                var parDescripcion = new SqlParameter("@descripcion", SqlDbType.VarChar, 256);
+                parDescripcion.Value = Categoria.Descripcion;
+                comandoSql.Parameters.Add(parDescripcion);
 
-                //Ejecion del comando
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo insertar el registro";
+                //Ejecucion del comando
+                respuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo insertar el registro";
 
 
             }
             catch (Exception ex)
             {
-                rpta = ex.Message;
+                respuesta = ex.Message;
             }
             finally
             {
-                if (SqlCon.State == ConnectionState.Open)
-                    SqlCon.Close();
+                if (conexionSql.State == ConnectionState.Open)
+                    conexionSql.Close();
             }
 
-            return rpta;
+            return respuesta;
         }
         #endregion
 
@@ -101,58 +90,47 @@ namespace CapaDatos
         //Metodo Editar
         public string Editar(Dcategoria Categoria)
         {
-            string rpta = "";
-            SqlConnection SqlCon = new SqlConnection();
+            string repuesta = "";
+            var conexionSql = new conexionSqlnection(Utilidades.conexion);
 
             try
             {
                 //Asignar y abrir StringConnection
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCon.Open();
+                conexionSql.Open();
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[speditar_categoria]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[speditar_categoria]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdCategoria = new SqlParameter();
-                ParIdCategoria.ParameterName = "@idcategoria";
-                ParIdCategoria.SqlDbType = SqlDbType.Int;
-                ParIdCategoria.Value = Categoria.IdCategoria;
-                SqlCmd.Parameters.Add(ParIdCategoria);
+                //Parametros para el comandoSql (StoreProcedure)
+                var parIdCategoria = new SqlParameter("@idcategoria", SqlDbType.Int);
+                parIdCategoria.Value = Categoria.IdCategoria;
+                comandoSql.Parameters.Add(parIdCategoria);
 
-                SqlParameter ParNombre = new SqlParameter();
-                ParNombre.ParameterName = "@nombre";
-                ParNombre.SqlDbType = SqlDbType.VarChar;
-                ParNombre.Size = 50;
-                ParNombre.Value = Categoria.Nombre;
-                SqlCmd.Parameters.Add(ParNombre);
+                var parNombre = new SqlParameter("@nombre", SqlDbType.VarChar, 50);
+                parNombre.Value = Categoria.Nombre;
+                comandoSql.Parameters.Add(parNombre);
 
-                SqlParameter ParDescripcion = new SqlParameter();
-                ParDescripcion.ParameterName = "@descripcion";
-                ParDescripcion.SqlDbType = SqlDbType.VarChar;
-                ParDescripcion.Size = 256;
-                ParDescripcion.Value = Categoria.Descripcion;
-                SqlCmd.Parameters.Add(ParDescripcion);
+                var parDescripcion = new SqlParameter("@descripcion", SqlDbType.VarChar, 256);
+                parDescripcion.Value = Categoria.Descripcion;
+                comandoSql.Parameters.Add(parDescripcion);
 
-                //Ejecion del comando
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo editar el registro";
+                //Ejecucion del comando
+                repuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo editar el registro";
 
 
             }
             catch (Exception ex)
             {
-                rpta = ex.Message;
+                repuesta = ex.Message;
             }
             finally
             {
-                if (SqlCon.State == ConnectionState.Open)
-                    SqlCon.Close();
+                if (conexionSql.State == ConnectionState.Open)
+                    conexionSql.Close();
             }
 
-            return rpta;
+            return repuesta;
 
         }
         #endregion
@@ -162,45 +140,40 @@ namespace CapaDatos
         //Metodo Eliminar
         public string Eliminar(Dcategoria Categoria)
         {
-            string rpta = "";
-            SqlConnection SqlCon = new SqlConnection();
+            string respuesta = "";
+            var conexionSql = new conexionSqlnection(Utilidades.conexion);
 
             try
             {
-                //Asignar y abrir StringConnection
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCon.Open();
+                //abrir StringConnection
+                conexionSql.Open();
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[speliminar_categoria]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[speliminar_categoria]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdCategoria = new SqlParameter();
-                ParIdCategoria.ParameterName = "@idcategoria";
-                ParIdCategoria.SqlDbType = SqlDbType.Int;
+                //Parametros para el comandoSql (StoreProcedure)
+                var ParIdCategoria = new SqlParameter("@idcategoria", SqlDbType.Int);
                 ParIdCategoria.Value = Categoria.IdCategoria;
-                SqlCmd.Parameters.Add(ParIdCategoria);
+                comandoSql.Parameters.Add(ParIdCategoria);
 
 
-                //Ejecion del comando
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo eliminar el registro";
+                //Ejecucion del comando
+                respuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo eliminar el registro";
 
 
             }
             catch (Exception ex)
             {
-                rpta = ex.Message;
+                respuesta = ex.Message;
             }
             finally
             {
-                if (SqlCon.State == ConnectionState.Open)
-                    SqlCon.Close();
+                if (conexionSql.State == ConnectionState.Open)
+                    conexionSql.Close();
             }
 
-            return rpta;
+            return respuesta;
         }
 
         #endregion
@@ -211,28 +184,26 @@ namespace CapaDatos
         public DataTable Mostrar()
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("categoria");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("categoria");
+            var conexionSql = new conexionSqlnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spmostrar_categoria]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                var comandoSql = new SqlCommand("[spmostrar_categoria]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
+
+                var sqlDat = new SqlDataAdapter(comandoSql);
+                sqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
 
 
         }
@@ -244,37 +215,31 @@ namespace CapaDatos
         public DataTable BuscarNombre(Dcategoria Cateria)
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("categoria");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("categoria");
+            var conexionSql = new conexionSqlnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spbuscar_categoria]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spbuscar_categoria]", conexionSql); ;
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
                 //Parametros
-                SqlParameter ParTextoBuscar = new SqlParameter();
-                ParTextoBuscar.ParameterName = "@textobuscar";
-                ParTextoBuscar.SqlDbType = SqlDbType.VarChar;
-                ParTextoBuscar.Size = 50;
-                ParTextoBuscar.Value = Cateria.TextoBuscar;
-                SqlCmd.Parameters.Add(ParTextoBuscar);
+                var parTextoBuscar = new SqlParameter("@textobuscar", SqlDbType.VarChar, 50);
+                parTextoBuscar.Value = Cateria.TextoBuscar;
+                comandoSql.Parameters.Add(parTextoBuscar);
 
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                var sqlDat = new SqlDataAdapter(comandoSql);
+                sqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
         }
         #endregion
 

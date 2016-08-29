@@ -38,72 +38,57 @@ namespace CapaDatos
 
         #region MetodoInsertar
         //Metodo Insertar
-        public string Insertar(DdetalleVenta DetalleVenta, ref SqlConnection SqlCon, ref SqlTransaction SqlTran)
+        public string Insertar(DdetalleVenta DetalleVenta, ref SqlConnection conexionSql, ref SqlTransaction transaccionSql)
         {
 
-            string rpta = "";
+            string respuesta = "";
 
             try
             {
 
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.Transaction = SqlTran;
-                SqlCmd.CommandText = "[spinsertar_detalle_venta]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spinsertar_detalle_venta]", conexionSql, transaccionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdDetalleVenta = new SqlParameter();
-                ParIdDetalleVenta.ParameterName = "@iddetalle_venta";
-                ParIdDetalleVenta.SqlDbType = SqlDbType.Int;
-                ParIdDetalleVenta.Direction = ParameterDirection.Output;
-                SqlCmd.Parameters.Add(ParIdDetalleVenta);
+                //Parametros para el comandoSql (StoreProcedure)
+                var parIdDetalleVenta = new SqlParameter("@iddetalle_venta", SqlDbType.Int);
+                parIdDetalleVenta.Direction = ParameterDirection.Output;
+                comandoSql.Parameters.Add(parIdDetalleVenta);
 
-                SqlParameter ParIdVenta = new SqlParameter();
-                ParIdVenta.ParameterName = "@idventa";
-                ParIdVenta.SqlDbType = SqlDbType.Int;
-                ParIdVenta.Value = DetalleVenta.IdVenta;
-                SqlCmd.Parameters.Add(ParIdVenta);
+                var parIdVenta = new SqlParameter("@idventa", SqlDbType.Int);
+                parIdVenta.Value = DetalleVenta.IdVenta;
+                comandoSql.Parameters.Add(parIdVenta);
 
-                SqlParameter ParIdDetalleIngreso = new SqlParameter();
-                ParIdDetalleIngreso.ParameterName = "@iddetalle_ingreso";
-                ParIdDetalleIngreso.SqlDbType = SqlDbType.Int;
-                ParIdDetalleIngreso.Value = DetalleVenta.IdDetalleIngreso;
-                SqlCmd.Parameters.Add(ParIdDetalleIngreso);
+                var parIdDetalleIngreso = new SqlParameter("@iddetalle_ingreso", SqlDbType.Int);
+                parIdDetalleIngreso.Value = DetalleVenta.IdDetalleIngreso;
+                comandoSql.Parameters.Add(parIdDetalleIngreso);
 
-                SqlParameter ParCantidad = new SqlParameter();
-                ParCantidad.ParameterName = "@cantidad";
-                ParCantidad.SqlDbType = SqlDbType.Int;
-                ParCantidad.Value = DetalleVenta.Cantidad;
-                SqlCmd.Parameters.Add(ParCantidad);
+                var parCantidad = new SqlParameter("@cantidad", SqlDbType.Int);
+                parCantidad.Value = DetalleVenta.Cantidad;
+                comandoSql.Parameters.Add(parCantidad);
 
-                SqlParameter ParPrecioVenta = new SqlParameter();
-                ParPrecioVenta.ParameterName = "@precio_venta";
-                ParPrecioVenta.SqlDbType = SqlDbType.Money;
-                ParPrecioVenta.Value = DetalleVenta.PrecioVenta;
-                SqlCmd.Parameters.Add(ParPrecioVenta);
+                SqlParameter parPrecioVenta = new SqlParameter("@precio_venta", SqlDbType.Money);
+                parPrecioVenta.Value = DetalleVenta.PrecioVenta;
+                comandoSql.Parameters.Add(parPrecioVenta);
 
-                SqlParameter ParDescuento = new SqlParameter();
-                ParDescuento.ParameterName = "@descuento";
-                ParDescuento.SqlDbType = SqlDbType.Money;
-                ParDescuento.Value = DetalleVenta.Descuento;
-                SqlCmd.Parameters.Add(ParDescuento);
+                SqlParameter parDescuento = new SqlParameter("@descuento", SqlDbType.Money);
+                parDescuento.Value = DetalleVenta.Descuento;
+                comandoSql.Parameters.Add(parDescuento);
 
 
 
-                //Ejecion del comando
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo insertar el registro";
+                //Ejecucion del comando
+                respuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo insertar el registro";
 
 
             }
             catch (Exception ex)
             {
-                rpta = ex.Message;
+                respuesta = ex.Message;
             }
 
-            return rpta;
+            return respuesta;
         }
         #endregion
 

@@ -128,22 +128,22 @@ namespace CapaPresentacion
                 if (opcion == DialogResult.Yes)
                 {
                     int IdProveedor = 0;
-                    string Rpta = "";
+                    string respuesta = "";
 
                     foreach (DataGridViewRow fila in dataListado.Rows)
                     {
                         if (Convert.ToBoolean(fila.Cells[0].Value))
                         {
                             IdProveedor = Convert.ToInt32(fila.Cells[1].Value);
-                            Rpta = Nproveedor.Eliminar(IdProveedor);
+                            respuesta = Nproveedor.Eliminar(IdProveedor);
 
-                            if (Rpta.Equals("Ok"))
+                            if (respuesta.Equals("Ok"))
                             {
                                 Utilidades.MensajeOK("El/los proveedor/es se eleminaron correctamente.");
                             }
                             else
                             {
-                                Utilidades.MensajeError(Rpta);
+                                Utilidades.MensajeError(respuesta);
                             }
                         }
                     }
@@ -185,7 +185,7 @@ namespace CapaPresentacion
         {
             try
             {
-                string rpta = "";
+                string respuesta = "";
 
                 if (txtRazonSocial.Text == string.Empty)
                 {
@@ -208,16 +208,16 @@ namespace CapaPresentacion
                 {
                     if (isNuevo)
                     {
-                        rpta = Nproveedor.Insertar(txtRazonSocial.Text.Trim().ToUpper(), cbSectorComercial.Text,
+                        respuesta = Nproveedor.Insertar(txtRazonSocial.Text.Trim().ToUpper(), cbSectorComercial.Text,
                             cbTipoDocumento.Text, txtNumDocumento.Text, txtDireccion.Text, mtxtTelefono.Text, txtEmail.Text, txtUrl.Text);
                     }
                     else
                     {
-                        rpta = Nproveedor.Editar(Convert.ToInt32(txtIdProveedor.Text), txtRazonSocial.Text.Trim().ToUpper(), cbSectorComercial.Text,
+                        respuesta = Nproveedor.Editar(Convert.ToInt32(txtIdProveedor.Text), txtRazonSocial.Text.Trim().ToUpper(), cbSectorComercial.Text,
                             cbTipoDocumento.Text, txtNumDocumento.Text, txtDireccion.Text, mtxtTelefono.Text, txtEmail.Text, txtUrl.Text);
                     }
 
-                    if (rpta.Equals("Ok"))
+                    if (respuesta.Equals("Ok"))
                     {
                         if (isNuevo)
                         {
@@ -230,7 +230,7 @@ namespace CapaPresentacion
                     }
                     else
                     {
-                        Utilidades.MensajeError(rpta);
+                        Utilidades.MensajeError(respuesta);
                     }
                     isNuevo = false;
                     isEditar = false;

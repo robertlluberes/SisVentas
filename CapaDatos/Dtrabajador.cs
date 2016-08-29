@@ -55,120 +55,83 @@ namespace CapaDatos
         public string Insertar(Dtrabajador Trabajador)
         {
 
-            string rpta = "";
-            SqlConnection SqlCon = new SqlConnection();
+            string respuesta = "";
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
-                //Asignar y abrir StringConnection
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCon.Open();
+                //Abrir StringConnection
+                conexionSql.Open();
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spinsertar_trabajador]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spinsertar_trabajador]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdTrabajador = new SqlParameter();
-                ParIdTrabajador.ParameterName = "@idtrabajador";
-                ParIdTrabajador.SqlDbType = SqlDbType.Int;
-                ParIdTrabajador.Direction = ParameterDirection.Output;
-                SqlCmd.Parameters.Add(ParIdTrabajador);
+                //Parametros para el comandoSql (StoreProcedure)
+                var parIdTrabajador = new SqlParameter("@idtrabajador", SqlDbType.Int);
+                parIdTrabajador.Direction = ParameterDirection.Output;
+                comandoSql.Parameters.Add(parIdTrabajador);
 
-                SqlParameter ParNombre = new SqlParameter();
-                ParNombre.ParameterName = "@nombre";
-                ParNombre.SqlDbType = SqlDbType.VarChar;
-                ParNombre.Size = 20;
-                ParNombre.Value = Trabajador.Nombre;
-                SqlCmd.Parameters.Add(ParNombre);
+                var parNombre = new SqlParameter("@nombre", SqlDbType.VarChar, 20);
+                parNombre.Value = Trabajador.Nombre;
+                comandoSql.Parameters.Add(parNombre);
 
-                SqlParameter ParApellido = new SqlParameter();
-                ParApellido.ParameterName = "@apellidos";
-                ParApellido.SqlDbType = SqlDbType.VarChar;
-                ParApellido.Size = 40;
-                ParApellido.Value = Trabajador.Apellido;
-                SqlCmd.Parameters.Add(ParApellido);
+                var parApellido = new SqlParameter("@apellidos", SqlDbType.VarChar, 40);
+                parApellido.Value = Trabajador.Apellido;
+                comandoSql.Parameters.Add(parApellido);
 
-                SqlParameter ParSexo = new SqlParameter();
-                ParSexo.ParameterName = "@sexo";
-                ParSexo.SqlDbType = SqlDbType.VarChar;
-                ParSexo.Size = 1;
-                ParSexo.Value = Trabajador.Sexo;
-                SqlCmd.Parameters.Add(ParSexo);
+                var parSexo = new SqlParameter("@sexo", SqlDbType.VarChar, 1);
+                parSexo.Value = Trabajador.Sexo;
+                comandoSql.Parameters.Add(parSexo);
 
-                SqlParameter ParFechaNacimiento = new SqlParameter();
-                ParFechaNacimiento.ParameterName = "@fecha_nacimiento";
-                ParFechaNacimiento.SqlDbType = SqlDbType.Date;
-                ParFechaNacimiento.Value = Trabajador.FechaNacimiento;
-                SqlCmd.Parameters.Add(ParFechaNacimiento);
+                var parFechaNacimiento = new SqlParameter("@fecha_nacimiento", SqlDbType.Date);
+                parFechaNacimiento.Value = Trabajador.FechaNacimiento;
+                comandoSql.Parameters.Add(parFechaNacimiento);
 
-                SqlParameter ParNumDocumento = new SqlParameter();
-                ParNumDocumento.ParameterName = "@num_documento";
-                ParNumDocumento.SqlDbType = SqlDbType.VarChar;
-                ParNumDocumento.Size = 8;
-                ParNumDocumento.Value = Trabajador.NumeroDocumento;
-                SqlCmd.Parameters.Add(ParNumDocumento);
+                var parNumDocumento = new SqlParameter("@num_documento", SqlDbType.VarChar, 8);
+                parNumDocumento.Value = Trabajador.NumeroDocumento;
+                comandoSql.Parameters.Add(parNumDocumento);
 
-                SqlParameter ParDireccion = new SqlParameter();
-                ParDireccion.ParameterName = "@direccion";
-                ParDireccion.SqlDbType = SqlDbType.VarChar;
-                ParDireccion.Size = 100;
-                ParDireccion.Value = Trabajador.Direccion;
-                SqlCmd.Parameters.Add(ParDireccion);
+                var parDireccion = new SqlParameter("@direccion", SqlDbType.VarChar, 100);
+                parDireccion.Value = Trabajador.Direccion;
+                comandoSql.Parameters.Add(parDireccion);
 
-                SqlParameter ParTelefono = new SqlParameter();
-                ParTelefono.ParameterName = "@telefono";
-                ParTelefono.SqlDbType = SqlDbType.VarChar;
-                ParTelefono.Size = 12;
-                ParTelefono.Value = Trabajador.Telefono;
-                SqlCmd.Parameters.Add(ParTelefono);
+                var parTelefono = new SqlParameter("@telefono", SqlDbType.VarChar, 12);
+                parTelefono.Value = Trabajador.Telefono;
+                comandoSql.Parameters.Add(parTelefono);
 
-                SqlParameter ParEmail = new SqlParameter();
-                ParEmail.ParameterName = "@email";
-                ParEmail.SqlDbType = SqlDbType.VarChar;
-                ParEmail.Size = 50;
-                ParEmail.Value = Trabajador.Email;
-                SqlCmd.Parameters.Add(ParEmail);
+                var parEmail = new SqlParameter("@email", SqlDbType.VarChar, 50);
+                parEmail.Value = Trabajador.Email;
+                comandoSql.Parameters.Add(parEmail);
 
-                SqlParameter ParAcceso = new SqlParameter();
-                ParAcceso.ParameterName = "@acceso";
-                ParAcceso.SqlDbType = SqlDbType.VarChar;
-                ParAcceso.Size = 20;
-                ParAcceso.Value = Trabajador.Acceso;
-                SqlCmd.Parameters.Add(ParAcceso);
+                var parAcceso = new SqlParameter("@acceso", SqlDbType.VarChar, 20);
+                parAcceso.Value = Trabajador.Acceso;
+                comandoSql.Parameters.Add(parAcceso);
 
-                SqlParameter ParUsuario = new SqlParameter();
-                ParUsuario.ParameterName = "@usuario";
-                ParUsuario.SqlDbType = SqlDbType.VarChar;
-                ParUsuario.Size = 20;
-                ParUsuario.Value = Trabajador.Usuario;
-                SqlCmd.Parameters.Add(ParUsuario);
+                var parUsuario = new SqlParameter("@usuario", SqlDbType.VarChar, 20);
+                parUsuario.Value = Trabajador.Usuario;
+                comandoSql.Parameters.Add(parUsuario);
 
-                SqlParameter ParPassword = new SqlParameter();
-                ParPassword.ParameterName = "@password";
-                ParPassword.SqlDbType = SqlDbType.VarChar;
-                ParPassword.Size = 500;
-                ParPassword.Value = Utilidades.GenerarHash(Trabajador.Password, Utilidades.GenerarSalt());
-                SqlCmd.Parameters.Add(ParPassword);
+                var parPassword = new SqlParameter("@password", SqlDbType.VarChar, 500);
+                parPassword.Value = Utilidades.GenerarHash(Trabajador.Password, Utilidades.GenerarSalt());
+                comandoSql.Parameters.Add(parPassword);
 
                 //Ejecucion del comando
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo insertar el registro";
+                respuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo insertar el registro";
 
 
             }
             catch (Exception ex)
             {
-                rpta = ex.Message;
+                respuesta = ex.Message;
             }
             finally
             {
-                if (SqlCon.State == ConnectionState.Open)
-                    SqlCon.Close();
+                if (conexionSql.State == ConnectionState.Open)
+                    conexionSql.Close();
             }
 
-            return rpta;
+            return respuesta;
         }
         #endregion
 
@@ -177,120 +140,83 @@ namespace CapaDatos
         //Metodo Editar
         public string Editar(Dtrabajador Trabajador)
         {
-            string rpta = "";
-            SqlConnection SqlCon = new SqlConnection();
+            string respuesta = "";
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
-                //Asignar y abrir StringConnection
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCon.Open();
+                //Abrir StringConnection
+                conexionSql.Open();
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[speditar_trabajador]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[speditar_trabajador]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdTrabajador = new SqlParameter();
-                ParIdTrabajador.ParameterName = "@idtrabajador";
-                ParIdTrabajador.Value = Trabajador.IdTrabajador;
-                ParIdTrabajador.SqlDbType = SqlDbType.Int;
-                SqlCmd.Parameters.Add(ParIdTrabajador);
+                //Parametros para el comandoSql (StoreProcedure)
+                var parIdTrabajador = new SqlParameter("@idtrabajador", SqlDbType.Int);
+                parIdTrabajador.Value = Trabajador.IdTrabajador;
+                comandoSql.Parameters.Add(parIdTrabajador);
 
-                SqlParameter ParNombre = new SqlParameter();
-                ParNombre.ParameterName = "@nombre";
-                ParNombre.SqlDbType = SqlDbType.VarChar;
-                ParNombre.Size = 20;
-                ParNombre.Value = Trabajador.Nombre;
-                SqlCmd.Parameters.Add(ParNombre);
+                var parNombre = new SqlParameter("@nombre", SqlDbType.VarChar, 20);
+                parNombre.Value = Trabajador.Nombre;
+                comandoSql.Parameters.Add(parNombre);
 
-                SqlParameter ParApellido = new SqlParameter();
-                ParApellido.ParameterName = "@apellidos";
-                ParApellido.SqlDbType = SqlDbType.VarChar;
-                ParApellido.Size = 40;
-                ParApellido.Value = Trabajador.Apellido;
-                SqlCmd.Parameters.Add(ParApellido);
+                var parApellido = new SqlParameter("@apellidos", SqlDbType.VarChar, 40);
+                parApellido.Value = Trabajador.Apellido;
+                comandoSql.Parameters.Add(parApellido);
 
-                SqlParameter ParSexo = new SqlParameter();
-                ParSexo.ParameterName = "@sexo";
-                ParSexo.SqlDbType = SqlDbType.VarChar;
-                ParSexo.Size = 1;
-                ParSexo.Value = Trabajador.Sexo;
-                SqlCmd.Parameters.Add(ParSexo);
+                var parSexo = new SqlParameter("@sexo", SqlDbType.VarChar, 1);
+                parSexo.Value = Trabajador.Sexo;
+                comandoSql.Parameters.Add(parSexo);
 
-                SqlParameter ParFechaNacimiento = new SqlParameter();
-                ParFechaNacimiento.ParameterName = "@fecha_nacimiento";
-                ParFechaNacimiento.SqlDbType = SqlDbType.Date;
-                ParFechaNacimiento.Value = Trabajador.FechaNacimiento;
-                SqlCmd.Parameters.Add(ParFechaNacimiento);
+                var parFechaNacimiento = new SqlParameter("@fecha_nacimiento", SqlDbType.Date);
+                parFechaNacimiento.Value = Trabajador.FechaNacimiento;
+                comandoSql.Parameters.Add(parFechaNacimiento);
 
-                SqlParameter ParNumDocumento = new SqlParameter();
-                ParNumDocumento.ParameterName = "@num_documento";
-                ParNumDocumento.SqlDbType = SqlDbType.VarChar;
-                ParNumDocumento.Size = 8;
-                ParNumDocumento.Value = Trabajador.NumeroDocumento;
-                SqlCmd.Parameters.Add(ParNumDocumento);
+                var parNumDocumento = new SqlParameter("@num_documento", SqlDbType.VarChar, 8);
+                parNumDocumento.Value = Trabajador.NumeroDocumento;
+                comandoSql.Parameters.Add(parNumDocumento);
 
-                SqlParameter ParDireccion = new SqlParameter();
-                ParDireccion.ParameterName = "@direccion";
-                ParDireccion.SqlDbType = SqlDbType.VarChar;
-                ParDireccion.Size = 100;
-                ParDireccion.Value = Trabajador.Direccion;
-                SqlCmd.Parameters.Add(ParDireccion);
+                var parDireccion = new SqlParameter("@direccion", SqlDbType.VarChar, 100);
+                parDireccion.Value = Trabajador.Direccion;
+                comandoSql.Parameters.Add(parDireccion);
 
-                SqlParameter ParTelefono = new SqlParameter();
-                ParTelefono.ParameterName = "@telefono";
-                ParTelefono.SqlDbType = SqlDbType.VarChar;
-                ParTelefono.Size = 12;
-                ParTelefono.Value = Trabajador.Telefono;
-                SqlCmd.Parameters.Add(ParTelefono);
+                var parTelefono = new SqlParameter("@telefono", SqlDbType.VarChar, 12);
+                parTelefono.Value = Trabajador.Telefono;
+                comandoSql.Parameters.Add(parTelefono);
 
-                SqlParameter ParEmail = new SqlParameter();
-                ParEmail.ParameterName = "@email";
-                ParEmail.SqlDbType = SqlDbType.VarChar;
-                ParEmail.Size = 50;
-                ParEmail.Value = Trabajador.Email;
-                SqlCmd.Parameters.Add(ParEmail);
+                var parEmail = new SqlParameter("@email", SqlDbType.VarChar, 50);
+                parEmail.Value = Trabajador.Email;
+                comandoSql.Parameters.Add(parEmail);
 
-                SqlParameter ParAcceso = new SqlParameter();
-                ParAcceso.ParameterName = "@acceso";
-                ParAcceso.SqlDbType = SqlDbType.VarChar;
-                ParAcceso.Size = 20;
-                ParAcceso.Value = Trabajador.Acceso;
-                SqlCmd.Parameters.Add(ParAcceso);
+                var parAcceso = new SqlParameter("@acceso", SqlDbType.VarChar, 20);
+                parAcceso.Value = Trabajador.Acceso;
+                comandoSql.Parameters.Add(parAcceso);
 
-                SqlParameter ParUsuario = new SqlParameter();
-                ParUsuario.ParameterName = "@usuario";
-                ParUsuario.SqlDbType = SqlDbType.VarChar;
-                ParUsuario.Size = 20;
-                ParUsuario.Value = Trabajador.Usuario;
-                SqlCmd.Parameters.Add(ParUsuario);
+                var parUsuario = new SqlParameter("@usuario", SqlDbType.VarChar, 20);
+                parUsuario.Value = Trabajador.Usuario;
+                comandoSql.Parameters.Add(parUsuario);
 
-                SqlParameter ParPassword = new SqlParameter();
-                ParPassword.ParameterName = "@password";
-                ParPassword.SqlDbType = SqlDbType.VarChar;
-                ParPassword.Size = 500;
-                ParPassword.Value = Utilidades.GenerarHash(Trabajador.Password, Utilidades.GenerarSalt());
-                SqlCmd.Parameters.Add(ParPassword);
+                var parPassword = new SqlParameter("@password", SqlDbType.VarChar, 500);
+                parPassword.Value = Utilidades.GenerarHash(Trabajador.Password, Utilidades.GenerarSalt());
+                comandoSql.Parameters.Add(parPassword);
 
-                //Ejecion del comando
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo editar el registro";
+                //Ejecucion del comando
+                respuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo editar el registro";
 
 
             }
             catch (Exception ex)
             {
-                rpta = ex.Message;
+                respuesta = ex.Message;
             }
             finally
             {
-                if (SqlCon.State == ConnectionState.Open)
-                    SqlCon.Close();
+                if (conexionSql.State == ConnectionState.Open)
+                    conexionSql.Close();
             }
 
-            return rpta;
+            return respuesta;
 
         }
         #endregion
@@ -300,45 +226,40 @@ namespace CapaDatos
         //Metodo Eliminar
         public string Eliminar(Dtrabajador Cliente)
         {
-            string rpta = "";
-            SqlConnection SqlCon = new SqlConnection();
+            string respuesta = "";
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
-                //Asignar y abrir StringConnection
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCon.Open();
+                //Abrir StringConnection
+                conexionSql.Open();
 
                 //Establecer el comando SQL
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[speliminar_trabajador]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[speliminar_trabajador]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                //Parametros para el SqlCmd (StoreProcedure)
-                SqlParameter ParIdTrabajador = new SqlParameter();
-                ParIdTrabajador.ParameterName = "@idtrabajador";
-                ParIdTrabajador.SqlDbType = SqlDbType.Int;
-                ParIdTrabajador.Value = Cliente.IdTrabajador;
-                SqlCmd.Parameters.Add(ParIdTrabajador);
+                //Parametros para el comandoSql (StoreProcedure)
+                var parIdTrabajador = new SqlParameter("@idtrabajador", SqlDbType.Int);
+                parIdTrabajador.Value = Cliente.IdTrabajador;
+                comandoSql.Parameters.Add(parIdTrabajador);
 
 
-                //Ejecion del comando
-                rpta = SqlCmd.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo eliminar el registro";
+                //Ejecucion del comando
+                respuesta = comandoSql.ExecuteNonQuery() == 1 ? "Ok" : "No se pudo eliminar el registro";
 
 
             }
             catch (Exception ex)
             {
-                rpta = ex.Message;
+                respuesta = ex.Message;
             }
             finally
             {
-                if (SqlCon.State == ConnectionState.Open)
-                    SqlCon.Close();
+                if (conexionSql.State == ConnectionState.Open)
+                    conexionSql.Close();
             }
 
-            return rpta;
+            return respuesta;
         }
 
         #endregion
@@ -349,28 +270,25 @@ namespace CapaDatos
         public DataTable Mostrar()
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("trabajador");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("trabajador");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spmostrar_trabajador]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spmostrar_trabajador]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                SqlDataAdapter SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
 
 
         }
@@ -382,37 +300,31 @@ namespace CapaDatos
         public DataTable BuscarNombre(Dtrabajador Trabajador)
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("trabajador");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("trabajador");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spbuscar_trabajador_nombres]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spbuscar_trabajador_nombres]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
                 //Parametros
-                SqlParameter ParTextoBuscar = new SqlParameter();
-                ParTextoBuscar.ParameterName = "@textobuscar";
-                ParTextoBuscar.SqlDbType = SqlDbType.VarChar;
-                ParTextoBuscar.Size = 11;
-                ParTextoBuscar.Value = Trabajador.TextoBuscar;
-                SqlCmd.Parameters.Add(ParTextoBuscar);
+                var parTextoBuscar = new SqlParameter("@textobuscar", SqlDbType.VarChar, 11);
+                parTextoBuscar.Value = Trabajador.TextoBuscar;
+                comandoSql.Parameters.Add(parTextoBuscar);
 
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                SqlDataAdapter SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
         }
         #endregion
 
@@ -422,37 +334,31 @@ namespace CapaDatos
         public DataTable BuscarApellido(Dtrabajador Trabajador)
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("trabajador");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("trabajador");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spbuscar_trabajador_apellidos]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand comandoSql = new SqlCommand("[spbuscar_trabajador_apellidos]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
                 //Parametros
-                SqlParameter ParTextoBuscar = new SqlParameter();
-                ParTextoBuscar.ParameterName = "@textobuscar";
-                ParTextoBuscar.SqlDbType = SqlDbType.VarChar;
-                ParTextoBuscar.Size = 11;
-                ParTextoBuscar.Value = Trabajador.TextoBuscar;
-                SqlCmd.Parameters.Add(ParTextoBuscar);
+                var parTextoBuscar = new SqlParameter("@textobuscar", SqlDbType.VarChar, 11);
+                parTextoBuscar.Value = Trabajador.TextoBuscar;
+                comandoSql.Parameters.Add(parTextoBuscar);
 
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                SqlDataAdapter SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
         }
         #endregion
 
@@ -462,37 +368,31 @@ namespace CapaDatos
         public DataTable BuscarNumDocumento(Dtrabajador Trabajador)
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("trabajador");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("trabajador");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[spbuscar_trabajador_num_documento]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+                var comandoSql = new SqlCommand("[spbuscar_trabajador_num_documento]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
                 //Parametros
-                SqlParameter ParTextoBuscar = new SqlParameter();
-                ParTextoBuscar.ParameterName = "@textobuscar";
-                ParTextoBuscar.SqlDbType = SqlDbType.VarChar;
-                ParTextoBuscar.Size = 11;
-                ParTextoBuscar.Value = Trabajador.TextoBuscar;
-                SqlCmd.Parameters.Add(ParTextoBuscar);
+                var parTextoBuscar = new SqlParameter("@textobuscar", SqlDbType.VarChar, 11);
+                parTextoBuscar.Value = Trabajador.TextoBuscar;
+                comandoSql.Parameters.Add(parTextoBuscar);
 
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                var SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resultadoTabla);
 
             }
             catch (Exception)
             {
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
-            return DtResultado;
+            return resultadoTabla;
         }
         #endregion
 
@@ -502,46 +402,41 @@ namespace CapaDatos
         public DataTable Login(Dtrabajador Trabajador)
         {
             //Cadena de conexion y DataTable (tabla)
-            DataTable DtResultado = new DataTable("trabajador");
-            SqlConnection SqlCon = new SqlConnection();
+            var resultadoTabla = new DataTable("trabajador");
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
             {
-                SqlCon.ConnectionString = Utilidades.conexion;
-                SqlCommand SqlCmd = new SqlCommand();
-                SqlCmd.Connection = SqlCon;
-                SqlCmd.CommandText = "[splogin]";
-                SqlCmd.CommandType = CommandType.StoredProcedure;
+
+                var comandoSql = new SqlCommand("[splogin]", conexionSql);
+                comandoSql.CommandType = CommandType.StoredProcedure;
 
                 //Parametros
-                SqlParameter ParUsuario = new SqlParameter();
-                ParUsuario.ParameterName = "@usuario";
-                ParUsuario.SqlDbType = SqlDbType.VarChar;
-                ParUsuario.Size = 20;
-                ParUsuario.Value = Trabajador.Usuario;
-                SqlCmd.Parameters.Add(ParUsuario);
+                var parUsuario = new SqlParameter("@usuario", SqlDbType.VarChar, 20);
+                parUsuario.Value = Trabajador.Usuario;
+                comandoSql.Parameters.Add(parUsuario);
 
 
-                SqlDataAdapter SqlDat = new SqlDataAdapter(SqlCmd);
-                SqlDat.Fill(DtResultado);
+                SqlDataAdapter SqlDat = new SqlDataAdapter(comandoSql);
+                SqlDat.Fill(resultadoTabla);
 
-                var hash = DtResultado.Rows[0][4].ToString();
+                var hash = resultadoTabla.Rows[0][4].ToString();
 
                 if (Utilidades.ValidarHash(Password, hash))
                 {
-                    return DtResultado;
+                    return resultadoTabla;
                 }
 
             }
             catch (Exception ex)
             {
                 System.Windows.Forms.MessageBox.Show(ex.Message + ex.StackTrace);
-                DtResultado = null;
+                resultadoTabla = null;
             }
 
 
-            return DtResultado = null;
+            return resultadoTabla = null;
         }
         #endregion
 

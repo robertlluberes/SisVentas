@@ -7,8 +7,12 @@ namespace CapaDatos
     public class Utilidades
     {
         //cadena de conexion
+        #region Cadena de Conexion
         public static String conexion = CapaDatos.Properties.Settings.Default.cn;
+        #endregion
 
+
+        #region Encriptacion
 
         public static string GenerarSalt()
         {
@@ -27,29 +31,33 @@ namespace CapaDatos
             return BCryptHelper.CheckPassword(contrasena, hashed);
         }
 
+        #endregion
+
+
+        #region Backup de la aplicacion
         public static string BackupBasedeDatos(string rutaBackup)
         {
             try
             {
-                var sqlCon = new SqlConnection(conexion);
-                sqlCon.Open();
+                var conexionSql = new SqlConnection(conexion);
+                conexionSql.Open();
 
-                var comando = new SqlCommand("[spbackup]", sqlCon);
+                var comando = new SqlCommand("[spbackup]", conexionSql);
                 comando.CommandType = System.Data.CommandType.StoredProcedure;
 
 
-                var ParRuta = new SqlParameter();
-                ParRuta.ParameterName = "@ruta";
-                ParRuta.DbType = System.Data.DbType.String;
-                ParRuta.Size = 255;
-                ParRuta.Value = rutaBackup;
+                var parRuta = new SqlParameter();
+                parRuta.ParameterName = "@ruta";
+                parRuta.DbType = System.Data.DbType.String;
+                parRuta.Size = 255;
+                parRuta.Value = rutaBackup;
 
-                comando.Parameters.Add(ParRuta);
+                comando.Parameters.Add(parRuta);
 
-                var rpta = comando.ExecuteNonQuery() == -1 ? "Ok" : "No se proces el backup:";
-                sqlCon.Close();
+                var respuesta = comando.ExecuteNonQuery() == -1 ? "Ok" : "No se proces el backup:";
+                conexionSql.Close();
 
-                return rpta.ToString();
+                return respuesta.ToString();
             }
             catch (Exception ex)
             {
@@ -58,6 +66,7 @@ namespace CapaDatos
             }
 
         }
+        #endregion
 
 
     }

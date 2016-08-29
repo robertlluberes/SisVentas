@@ -236,7 +236,7 @@ namespace CapaPresentacion
         {
             try
             {
-                string rpta = "";
+                string respuesta = "";
 
                 if (txtNombre.Text == string.Empty)
                 {
@@ -264,14 +264,14 @@ namespace CapaPresentacion
 
                     if (isNuevo)
                     {
-                        rpta = Narticulo.Insertar(txtCodigos.Text, txtNombre.Text.Trim().ToUpper(), txtDescripcion.Text.Trim(), imagen, Convert.ToInt32(txtIdCategoria.Text), Convert.ToInt32(cbPresentacion.SelectedValue));
+                        respuesta = Narticulo.Insertar(txtCodigos.Text, txtNombre.Text.Trim().ToUpper(), txtDescripcion.Text.Trim(), imagen, Convert.ToInt32(txtIdCategoria.Text), Convert.ToInt32(cbPresentacion.SelectedValue));
                     }
                     else
                     {
-                        rpta = Narticulo.Editar(Convert.ToInt32(txtIdArticulo.Text), txtCodigos.Text.Trim(), txtNombre.Text.Trim().ToUpper(), txtDescripcion.Text.Trim(), imagen, Convert.ToInt32(txtIdCategoria.Text), Convert.ToInt32(cbPresentacion.SelectedValue));
+                        respuesta = Narticulo.Editar(Convert.ToInt32(txtIdArticulo.Text), txtCodigos.Text.Trim(), txtNombre.Text.Trim().ToUpper(), txtDescripcion.Text.Trim(), imagen, Convert.ToInt32(txtIdCategoria.Text), Convert.ToInt32(cbPresentacion.SelectedValue));
                     }
 
-                    if (rpta.Equals("Ok"))
+                    if (respuesta.Equals("Ok"))
                     {
                         if (isNuevo)
                         {
@@ -284,7 +284,7 @@ namespace CapaPresentacion
                     }
                     else
                     {
-                        Utilidades.MensajeError(rpta);
+                        Utilidades.MensajeError(respuesta);
                     }
                     isNuevo = false;
                     isEditar = false;
@@ -340,22 +340,22 @@ namespace CapaPresentacion
                 if (opcion == DialogResult.Yes)
                 {
                     int IdCategoria = 0;
-                    string Rpta = "";
+                    string respuesta = "";
 
                     foreach (DataGridViewRow fila in dataListado.Rows)
                     {
                         if (Convert.ToBoolean(fila.Cells[0].Value))
                         {
                             IdCategoria = Convert.ToInt32(fila.Cells[1].Value);
-                            Rpta = Narticulo.Eliminar(IdCategoria);
+                            respuesta = Narticulo.Eliminar(IdCategoria);
 
-                            if (Rpta.Equals("Ok"))
+                            if (respuesta.Equals("Ok"))
                             {
                                 Utilidades.MensajeOK("El artículo se elimino correctamente.");
                             }
                             else
                             {
-                                Utilidades.MensajeError(Rpta);
+                                Utilidades.MensajeError(respuesta);
                             }
                         }
                     }
