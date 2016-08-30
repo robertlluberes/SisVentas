@@ -1,8 +1,6 @@
 ﻿using CapaNegocio;
 using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 namespace CapaPresentacion
@@ -133,54 +131,7 @@ namespace CapaPresentacion
             txtCategoria.Text = nombre;
         }
 
-        //Cambiar tamano de la imagen
-        static Image TamanoImagen(Image imgPhoto, int Width, int Height)
-        {
-            int sourceWidth = imgPhoto.Width;
-            int sourceHeight = imgPhoto.Height;
-            int sourceX = 0;
-            int sourceY = 0;
-            int destX = 0;
-            int destY = 0;
 
-            float nPercent = 0;
-            float nPercentW = 0;
-            float nPercentH = 0;
-
-            nPercentW = ((float)Width / (float)sourceWidth);
-            nPercentH = ((float)Height / (float)sourceHeight);
-
-            //if we have to pad the height pad both the top and the bottom
-            //with the difference between the scaled height and the desired height
-            if (nPercentH < nPercentW)
-            {
-                nPercent = nPercentH;
-                destX = (int)((Width - (sourceWidth * nPercent)) / 2);
-            }
-            else
-            {
-                nPercent = nPercentW;
-                destY = (int)((Height - (sourceHeight * nPercent)) / 2);
-            }
-
-            int destWidth = (int)(sourceWidth * nPercent);
-            int destHeight = (int)(sourceHeight * nPercent);
-
-            Bitmap bmPhoto = new Bitmap(Width, Height, PixelFormat.Format24bppRgb);
-            bmPhoto.SetResolution(imgPhoto.HorizontalResolution, imgPhoto.VerticalResolution);
-
-            Graphics grPhoto = Graphics.FromImage(bmPhoto);
-            grPhoto.Clear(Color.White);
-            grPhoto.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-            grPhoto.DrawImage(imgPhoto,
-                new Rectangle(destX, destY, destWidth, destHeight),
-                new Rectangle(sourceX, sourceY, sourceWidth, sourceHeight),
-                GraphicsUnit.Pixel);
-
-            grPhoto.Dispose();
-            return bmPhoto;
-        }
 
         private void FrmArticulo_Load(object sender, EventArgs e)
         {
@@ -200,7 +151,7 @@ namespace CapaPresentacion
             {
                 pxImagen.SizeMode = PictureBoxSizeMode.StretchImage;
                 pxImagen.Image = Image.FromFile(Dialog.FileName);
-                pxImagen.Image = TamanoImagen(pxImagen.Image, 50, 50);
+                pxImagen.Image = Utilidades.CambiarTamanoImagen(pxImagen.Image, 50, 50);
             }
         }
 
@@ -210,7 +161,7 @@ namespace CapaPresentacion
         {
             pxImagen.SizeMode = PictureBoxSizeMode.StretchImage;
             pxImagen.Image = global::CapaPresentacion.Properties.Resources.ImagenTransparente;
-            pxImagen.Image = TamanoImagen(pxImagen.Image, 50, 50);
+            pxImagen.Image = Utilidades.CambiarTamanoImagen(pxImagen.Image, 50, 50);
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -225,11 +176,11 @@ namespace CapaPresentacion
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
-            this.isNuevo = true;
-            this.isEditar = false;
-            this.Limpiar();
-            this.HabilitarBotones();
-            this.HabilitarControles(true);
+            isNuevo = true;
+            isEditar = false;
+            Limpiar();
+            HabilitarBotones();
+            HabilitarControles(true);
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -257,7 +208,7 @@ namespace CapaPresentacion
                 {
                     System.IO.MemoryStream ms = new System.IO.MemoryStream();
 
-                    pxImagen.Image = TamanoImagen(pxImagen.Image, 50, 50);
+                    pxImagen.Image = Utilidades.CambiarTamanoImagen(pxImagen.Image, 50, 50);
                     pxImagen.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Png); //Formato de la imagen.
 
                     byte[] imagen = ms.GetBuffer();
@@ -296,7 +247,7 @@ namespace CapaPresentacion
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + ex.StackTrace);
+                Utilidades.MensajeError(ex.Message + ex.StackTrace);
             }
         }
 
@@ -325,7 +276,7 @@ namespace CapaPresentacion
 
         private void btnBuscarCategoria_Click(object sender, EventArgs e)
         {
-            FrmVistaCategoriaArticulo formulario = new FrmVistaCategoriaArticulo();
+            var formulario = new FrmVistaCategoriaArticulo();
             formulario.ShowDialog();
         }
 

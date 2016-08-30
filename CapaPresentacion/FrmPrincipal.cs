@@ -23,7 +23,7 @@ namespace CapaPresentacion
                 mnuMantenimiento.Enabled = true;
                 mnuConsultas.Enabled = true;
                 mnuHerramientas.Enabled = true;
-                tsCompras.Enabled = true;
+                tsIngreso.Enabled = true;
                 tsVentas.Enabled = true;
             }
             else if (acceso == "Vendedor")
@@ -34,7 +34,7 @@ namespace CapaPresentacion
                 mnuMantenimiento.Enabled = false;
                 mnuConsultas.Enabled = true;
                 mnuHerramientas.Enabled = true;
-                tsCompras.Enabled = false;
+                tsIngreso.Enabled = false;
                 tsVentas.Enabled = true;
             }
             else if (acceso == "Almacenista")
@@ -45,7 +45,7 @@ namespace CapaPresentacion
                 mnuMantenimiento.Enabled = false;
                 mnuConsultas.Enabled = true;
                 mnuHerramientas.Enabled = true;
-                tsCompras.Enabled = true;
+                tsIngreso.Enabled = true;
                 tsVentas.Enabled = false;
             }
             else
@@ -56,7 +56,7 @@ namespace CapaPresentacion
                 mnuMantenimiento.Enabled = false;
                 mnuConsultas.Enabled = false;
                 mnuHerramientas.Enabled = false;
-                tsCompras.Enabled = false;
+                tsIngreso.Enabled = false;
                 tsVentas.Enabled = false;
             }
         }
@@ -158,9 +158,9 @@ namespace CapaPresentacion
 
         private void stockDeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var Frm = new Consulta.FrmConsultaStockArticulos();
-            Frm.MdiParent = this;
-            Frm.Show();
+            var formulario = new Consulta.FrmConsultaStockArticulos();
+            formulario.MdiParent = this;
+            formulario.Show();
 
         }
 
@@ -176,44 +176,44 @@ namespace CapaPresentacion
 
         private void categoríasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmCategoria frm = new FrmCategoria();
-            frm.MdiParent = this;
-            frm.Show();
+            var formulario = new FrmCategoria();
+            formulario.MdiParent = this;
+            formulario.Show();
         }
 
         private void presentaciónToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            FrmPresentacion frm = new FrmPresentacion();
-            frm.MdiParent = this;
-            frm.Show();
+            var formulario = new FrmPresentacion();
+            formulario.MdiParent = this;
+            formulario.Show();
         }
 
         private void artículosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmArticulo frm = FrmArticulo.GetInstancia();
-            frm.MdiParent = this;
-            frm.Show();
+            var formulario = FrmArticulo.GetInstancia();
+            formulario.MdiParent = this;
+            formulario.Show();
         }
 
         private void proveedoresToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmProveedor frm = new FrmProveedor();
-            frm.MdiParent = this;
-            frm.Show();
+            var formulario = new FrmProveedor();
+            formulario.MdiParent = this;
+            formulario.Show();
         }
 
         private void clientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmCliente frm = new FrmCliente();
-            frm.MdiParent = this;
-            frm.Show();
+            var formulario = new FrmCliente();
+            formulario.MdiParent = this;
+            formulario.Show();
         }
 
         private void trabajadoresToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FrmTrabajador frm = new FrmTrabajador();
-            frm.MdiParent = this;
-            frm.Show();
+            var formulario = new FrmTrabajador();
+            formulario.MdiParent = this;
+            formulario.Show();
         }
 
         private void FrmPrincipal_Load(object sender, EventArgs e)
@@ -228,32 +228,48 @@ namespace CapaPresentacion
 
         private void ingresosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frm = FrmIngreso.GetInstancia();
-            frm.MdiParent = this;
-            frm.Show();
-            frm.idTrabajador = Convert.ToInt32(idTrabajador);
+            var formulario = FrmIngreso.GetInstancia();
+            formulario.MdiParent = this;
+            formulario.Show();
+            formulario.idTrabajador = Convert.ToInt32(idTrabajador);
         }
 
         private void ventasToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            FrmVenta Formulario = FrmVenta.GetInstancia();
-            Formulario.MdiParent = this;
-            Formulario.Show();
-            Formulario.iDTrabajador = Convert.ToInt32(idTrabajador);
+            var formulario = FrmVenta.GetInstancia();
+            formulario.MdiParent = this;
+            formulario.Show();
+            formulario.iDTrabajador = Convert.ToInt32(idTrabajador);
         }
 
         private void backupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var Formulario = new FrmBackupBD();
-            Formulario.MdiParent = this;
-            Formulario.Show();
+            var formulario = new FrmBackupBD();
+            formulario.MdiParent = this;
+            formulario.Show();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var Formulario = new FrmAcercaDe();
-            Formulario.MdiParent = this;
-            Formulario.Show();
+            var formulario = new FrmAcercaDe();
+            formulario.MdiParent = this;
+            formulario.Show();
+        }
+
+        private void tsIngreso_Click(object sender, EventArgs e)
+        {
+            var formulario = FrmIngreso.GetInstancia();
+            formulario.MdiParent = this;
+            formulario.Show();
+            formulario.idTrabajador = Convert.ToInt32(idTrabajador);
+        }
+
+        private void tsVentas_Click(object sender, EventArgs e)
+        {
+            var formulario = FrmVenta.GetInstancia();
+            formulario.MdiParent = this;
+            formulario.Show();
+            formulario.iDTrabajador = Convert.ToInt32(idTrabajador);
         }
     }
 }

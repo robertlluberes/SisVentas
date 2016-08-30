@@ -193,13 +193,13 @@ namespace CapaPresentacion
 
         private void btnBuscarCliente_Click(object sender, EventArgs e)
         {
-            FrmVistaClienteVenta vista = new FrmVistaClienteVenta();
+            var vista = new FrmVistaClienteVenta();
             vista.ShowDialog();
         }
 
         private void btnBuscarArticulo_Click(object sender, EventArgs e)
         {
-            FrmVistaArticuloVenta vista = new FrmVistaArticuloVenta();
+            var vista = new FrmVistaArticuloVenta();
             vista.ShowDialog();
         }
 

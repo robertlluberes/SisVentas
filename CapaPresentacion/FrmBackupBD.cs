@@ -19,7 +19,6 @@ namespace CapaPresentacion
                 archivoBackup.Title = "Seleccione la ruta...";
                 archivoBackup.Filter = "SQL Backup (*.bak)| *.bak";
 
-
                 if (archivoBackup.ShowDialog() == DialogResult.OK)
                 {
                     txtRutaBackup.Text = archivoBackup.FileName.ToString();
@@ -28,7 +27,7 @@ namespace CapaPresentacion
             catch (Exception ex)
             {
 
-                Utilidades.MensajeOK(ex.Message + ex.StackTrace);
+                Utilidades.MensajeError(ex.Message + ex.StackTrace);
             }
 
         }
