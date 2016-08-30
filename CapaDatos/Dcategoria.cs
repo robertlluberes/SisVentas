@@ -42,7 +42,7 @@ namespace CapaDatos
         {
 
             string respuesta = "";
-            var conexionSql = new conexionSqlnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
@@ -91,7 +91,7 @@ namespace CapaDatos
         public string Editar(Dcategoria Categoria)
         {
             string repuesta = "";
-            var conexionSql = new conexionSqlnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
@@ -141,7 +141,7 @@ namespace CapaDatos
         public string Eliminar(Dcategoria Categoria)
         {
             string respuesta = "";
-            var conexionSql = new conexionSqlnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
@@ -185,7 +185,7 @@ namespace CapaDatos
         {
             //Cadena de conexion y DataTable (tabla)
             var resultadoTabla = new DataTable("categoria");
-            var conexionSql = new conexionSqlnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
@@ -216,7 +216,7 @@ namespace CapaDatos
         {
             //Cadena de conexion y DataTable (tabla)
             var resultadoTabla = new DataTable("categoria");
-            var conexionSql = new conexionSqlnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try

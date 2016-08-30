@@ -53,7 +53,7 @@ namespace CapaDatos
         {
 
             string respuesta = "";
-            var conexionSql = new conexionSqlnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
@@ -130,7 +130,7 @@ namespace CapaDatos
         public string Editar(Dcliente Cliente)
         {
             string respuesta = "";
-            var conexionSql = new conexionSqlnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
@@ -208,7 +208,7 @@ namespace CapaDatos
         public string Eliminar(Dcliente Cliente)
         {
             string repuesta = "";
-            var conexionSql = new conexionSqlnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
             try
             {
@@ -252,7 +252,7 @@ namespace CapaDatos
         {
             //Cadena de conexion y DataTable (tabla)
             var resultadoTabla = new DataTable("cliente");
-            var conexionSql = new conexionSqlnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
@@ -282,7 +282,7 @@ namespace CapaDatos
         {
             //Cadena de conexion y DataTable (tabla)
             var resultadoTabla = new DataTable("cliente");
-            var conexionSql = new conexionSqlnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
@@ -316,7 +316,7 @@ namespace CapaDatos
         {
             //Cadena de conexion y DataTable (tabla)
             var resultadoTabla = new DataTable("cliente");
-            var conexionSql = new conexionSqlnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
@@ -351,7 +351,7 @@ namespace CapaDatos
         {
             //Cadena de conexion y DataTable (tabla)
             var resultadoTabla = new DataTable("cliente");
-            var conexionSql = new conexionSqlnection(Utilidades.conexion);
+            var conexionSql = new SqlConnection(Utilidades.conexion);
 
 
             try
