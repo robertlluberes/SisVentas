@@ -1,74 +1,101 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CapaDatos;
 using System.Data;
-using CapaDatos;
 
 namespace CapaNegocio
 {
     public class Nproveedor
     {
-        //Metodo Insertar que llama al mentodo insertar de la clase Dproveedor de la CapaDatos
+
+        #region Insertar
         public static string Insertar(string razonsocial, string sectorcomercial, string tipodocumento, string numdocumento, string direccion, string telefono, string email, string url)
         {
-            Dproveedor Obj = new Dproveedor();
-            Obj.RazonSocial = razonsocial;
-            Obj.SectorComercial = sectorcomercial;
-            Obj.TipoDocumento = tipodocumento;
-            Obj.NumDocumento = numdocumento;
-            Obj.Direccion = direccion;
-            Obj.Telefono = telefono;
-            Obj.Email = email;
-            Obj.Url = url;
-            return Obj.Insertar(Obj);
-        }
+            Dproveedor Proveedor = new Dproveedor()
+            {
+                RazonSocial = razonsocial,
+                SectorComercial = sectorcomercial,
+                TipoDocumento = tipodocumento,
+                NumDocumento = numdocumento,
+                Direccion = direccion,
+                Telefono = telefono,
+                Email = email,
+                Url = url
+            };
 
-        //Metodo Editar que llama al mentodo Edita de la clase Dproveedor de la CapaDatos
+            return Proveedor.Insertar(Proveedor);
+        }
+        #endregion
+
+
+        #region Editar
+
         public static string Editar(int idproveedor, string razonsocial, string sectorcomercial, string tipodocumento, string numdocumento, string direccion, string telefono, string email, string url)
         {
-            Dproveedor Obj = new Dproveedor();
-            Obj.IdProveedor = idproveedor;
-            Obj.RazonSocial = razonsocial;
-            Obj.SectorComercial = sectorcomercial;
-            Obj.TipoDocumento = tipodocumento;
-            Obj.NumDocumento = numdocumento;
-            Obj.Direccion = direccion;
-            Obj.Telefono = telefono;
-            Obj.Email = email;
-            Obj.Url = url;
-            return Obj.Editar(Obj);
-        }
+            Dproveedor Proveedor = new Dproveedor()
+            {
+                IdProveedor = idproveedor,
+                RazonSocial = razonsocial,
+                SectorComercial = sectorcomercial,
+                TipoDocumento = tipodocumento,
+                NumDocumento = numdocumento,
+                Direccion = direccion,
+                Telefono = telefono,
+                Email = email,
+                Url = url
+            };
 
-        //Metodo Eliminar que llama al mentodo Eliminar de la clase Dproveedor de la CapaDatos
+            return Proveedor.Editar(Proveedor);
+        }
+        #endregion
+
+
+        #region Eliminar
+
         public static string Eliminar(int idproveedor)
         {
-            Dproveedor Obj = new Dproveedor();
-            Obj.IdProveedor = idproveedor;
-            return Obj.Eliminar(Obj);
-        }
+            Dproveedor Proveedor = new Dproveedor()
+            {
+                IdProveedor = idproveedor
+            };
 
-        //Metodo Mostrar que llama al mentodo Mostrar de la clase Dproveedor de la CapaDatos
+            return Proveedor.Eliminar(Proveedor);
+        }
+        #endregion
+
+
+        #region Mostrar
+
         public static DataTable Mostrar()
         {
             return new Dproveedor().Mostrar();
         }
+        #endregion
 
-        //Metodo BuscarRazonSocial que llama al mentodo BuscarRazonSocial de la clase Dproveedor de la CapaDatos
+
+        #region BuscarRazonSocial
+
         public static DataTable BuscarRazonSocial(string textobuscar)
         {
-            Dproveedor Obj = new Dproveedor();
-            Obj.TextoBuscar = textobuscar;
-            return Obj.BuscarRazonSocial(Obj);
-        }
+            Dproveedor Proveedor = new Dproveedor()
+            {
+                TextoBuscar = textobuscar
+            };
 
-        //Metodo BucarNombre que llama al mentodo BucarNombre de la clase Dproveedor de la CapaDatos
+            return Proveedor.BuscarRazonSocial(Proveedor);
+        }
+        #endregion
+
+
+        #region BuscarProveedorDocumento
+
         public static DataTable BuscarProveedorDocumento(string textobuscar)
         {
-            Dproveedor Obj = new Dproveedor();
-            Obj.TextoBuscar = textobuscar;
-            return Obj.BuscarProveedorDocumento(Obj);
+            Dproveedor Proveedor = new Dproveedor()
+            {
+                TextoBuscar = textobuscar
+            };
+
+            return Proveedor.BuscarProveedorDocumento(Proveedor);
         }
+        #endregion
     }
 }

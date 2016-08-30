@@ -8,39 +8,47 @@ namespace CapaNegocio
     {
 
         #region Insertar
+
         public static string Insertar(string nombre, string apellido, string sexo, DateTime fechaNacimiento, string tipoDocumento, string numeroDocumento, string direccion, string telefono, string email)
         {
-            Dcliente Obj = new Dcliente();
-            Obj.Nombre = nombre;
-            Obj.Apellido = apellido;
-            Obj.Sexo = sexo;
-            Obj.FechaNacimiento = fechaNacimiento;
-            Obj.TipoDocumento = tipoDocumento;
-            Obj.NumeroDocumento = numeroDocumento;
-            Obj.Direccion = direccion;
-            Obj.Telefono = telefono;
-            Obj.Email = email;
+            Dcliente Cliente = new Dcliente()
+            {
+                Nombre = nombre,
+                Apellido = apellido,
+                Sexo = sexo,
+                FechaNacimiento = fechaNacimiento,
+                TipoDocumento = tipoDocumento,
+                NumeroDocumento = numeroDocumento,
+                Direccion = direccion,
+                Telefono = telefono,
+                Email = email
+            };
 
-            return Obj.Insertar(Obj);
+
+            return Cliente.Insertar(Cliente);
         }
         #endregion
 
 
         #region Editar
+
         public static string Editar(int idCliente, string nombre, string apellido, string sexo, DateTime fechaNacimiento, string tipoDocumento, string numeroDocumento, string direccion, string telefono, string email)
         {
-            Dcliente Obj = new Dcliente();
-            Obj.IdCliente = idCliente;
-            Obj.Nombre = nombre;
-            Obj.Apellido = apellido;
-            Obj.Sexo = sexo;
-            Obj.FechaNacimiento = fechaNacimiento;
-            Obj.TipoDocumento = tipoDocumento;
-            Obj.NumeroDocumento = numeroDocumento;
-            Obj.Direccion = direccion;
-            Obj.Telefono = telefono;
-            Obj.Email = email;
-            return Obj.Editar(Obj);
+            Dcliente Cliente = new Dcliente()
+            {
+                IdCliente = idCliente,
+                Nombre = nombre,
+                Apellido = apellido,
+                Sexo = sexo,
+                FechaNacimiento = fechaNacimiento,
+                TipoDocumento = tipoDocumento,
+                NumeroDocumento = numeroDocumento,
+                Direccion = direccion,
+                Telefono = telefono,
+                Email = email
+            };
+
+            return Cliente.Editar(Cliente);
         }
         #endregion
 
@@ -56,6 +64,7 @@ namespace CapaNegocio
 
 
         #region Mostrar
+
         public static DataTable Mostrar()
         {
             return new Dcliente().Mostrar();
@@ -64,31 +73,43 @@ namespace CapaNegocio
 
 
         #region BuscarNombre
+
         public static DataTable BuscarNombre(string textoBuscar)
         {
-            Dcliente Obj = new Dcliente();
-            Obj.TextoBuscar = textoBuscar;
-            return Obj.BuscarNombre(Obj);
+            Dcliente Cliente = new Dcliente()
+            {
+                TextoBuscar = textoBuscar
+            };
+
+            return Cliente.BuscarNombre(Cliente);
         }
         #endregion
 
 
         #region BuscarNumDocumento
+
         public static DataTable BuscarNumDocumento(string textoBuscar)
         {
-            Dcliente Obj = new Dcliente();
-            Obj.TextoBuscar = textoBuscar;
-            return Obj.BuscarNumDocumento(Obj);
+            Dcliente Cliente = new Dcliente()
+            {
+                TextoBuscar = textoBuscar
+            };
+
+            return Cliente.BuscarNumDocumento(Cliente);
         }
         #endregion
 
 
         #region BuscarApellido
+
         public static DataTable BuscarApellido(string textoBuscar)
         {
-            Dcliente Obj = new Dcliente();
-            Obj.TextoBuscar = textoBuscar;
-            return Obj.BuscarApellido(Obj);
+            Dcliente Cliente = new Dcliente()
+            {
+                TextoBuscar = textoBuscar
+            };
+
+            return Cliente.BuscarApellido(Cliente);
         }
         #endregion
     }

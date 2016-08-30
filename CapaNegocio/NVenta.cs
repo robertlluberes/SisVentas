@@ -8,17 +8,21 @@ namespace CapaNegocio
     public class NVenta
     {
 
+        #region Insertar
         public static string Insertar(int idCliente, int idTrabajador, DateTime fecha, string tipoComprobante,
-            string serie, string correlativo, decimal itbis, DataTable dtDetalles)
+    string serie, string correlativo, decimal itbis, DataTable dtDetalles)
         {
-            Dventa Obj = new Dventa();
-            Obj.IdCliente = idCliente;
-            Obj.IdTrabajador = idTrabajador;
-            Obj.Fecha = fecha;
-            Obj.TipoComprobante = tipoComprobante;
-            Obj.Serie = serie;
-            Obj.Correlativo = correlativo;
-            Obj.Itbis = itbis;
+            Dventa Venta = new Dventa()
+            {
+                IdCliente = idCliente,
+                IdTrabajador = idTrabajador,
+                Fecha = fecha,
+                TipoComprobante = tipoComprobante,
+                Serie = serie,
+                Correlativo = correlativo,
+                Itbis = itbis
+            };
+
 
             var ListaDetalles = new List<DdetalleVenta>();
 
@@ -32,49 +36,73 @@ namespace CapaNegocio
 
                 ListaDetalles.Add(detalleIngreso);
             }
-            return Obj.Insertar(Obj, ListaDetalles);
+            return Venta.Insertar(Venta, ListaDetalles);
         }
+        #endregion
 
+
+        #region Eliminar
 
         public static string Eliminar(int idIngreso)
         {
-            Dventa Obj = new Dventa();
-            Obj.IdVenta = idIngreso;
-            return Obj.Eliminar(Obj);
-        }
+            Dventa Venta = new Dventa()
+            {
+                IdVenta = idIngreso
+            };
 
+            return Venta.Eliminar(Venta);
+        }
+        #endregion
+
+
+        #region Mostrar
 
         public static DataTable Mostrar()
         {
             return new Dventa().Mostrar();
         }
+        #endregion
 
+
+        #region BuscarFechas
 
         public static DataTable BuscarFechas(string fechaInicio, string fechaFin)
         {
-            Dventa Obj = new Dventa();
-            return Obj.BuscarFechas(fechaInicio, fechaFin);
+            Dventa Venta = new Dventa();
+
+            return Venta.BuscarFechas(fechaInicio, fechaFin);
         }
+        #endregion
 
 
+        #region MostrarDetalles
         public static DataTable MostrarDetalles(string textoBuscar)
         {
-            Dventa Obj = new Dventa();
-            return Obj.MostrarDetalles(textoBuscar);
+            Dventa Venta = new Dventa();
+            return Venta.MostrarDetalles(textoBuscar);
         }
 
+        #endregion
+
+
+        #region BuscarArticuloVentaNombre
 
         public static DataTable BuscarArticuloVentaNombre(string textoBuscar)
         {
-            Dventa Obj = new Dventa();
-            return Obj.BuscarAritculoVentaNombre(textoBuscar);
+            Dventa Venta = new Dventa();
+
+            return Venta.BuscarAritculoVentaNombre(textoBuscar);
         }
+        #endregion
 
 
+        #region BuscarAritculoVentaCodigo
         public static DataTable BuscarAritculoVentaCodigo(string textoBuscar)
         {
-            Dventa Obj = new Dventa();
-            return Obj.BuscarAritculoVentaCodigo(textoBuscar);
+            Dventa Venta = new Dventa();
+
+            return Venta.BuscarAritculoVentaCodigo(textoBuscar);
         }
+        #endregion
     }
 }

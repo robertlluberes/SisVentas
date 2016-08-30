@@ -7,19 +7,23 @@ namespace CapaNegocio
 {
     public class Ningreso
     {
-        //Metodo Insertar que llama al mentodo insertar de la clase Dingreso de la CapaDatos
+
+        #region Insertar
+
         public static string Insertar(int idTrabajador, int idProveedor, DateTime fecha, string tipoComprobante,
-            string serie, string correlativo, decimal itbis, string estado, DataTable dtDetalles)
+    string serie, string correlativo, decimal itbis, string estado, DataTable dtDetalles)
         {
-            Dingreso Obj = new Dingreso();
-            Obj.IdTrabajador = idTrabajador;
-            Obj.IdProveedor = idProveedor;
-            Obj.Fecha = fecha;
-            Obj.TipoComprobante = tipoComprobante;
-            Obj.Serie = serie;
-            Obj.Correlativo = correlativo;
-            Obj.Itbis = itbis;
-            Obj.Estado = estado;
+            Dingreso Ingreso = new Dingreso()
+            {
+                IdTrabajador = idTrabajador,
+                IdProveedor = idProveedor,
+                Fecha = fecha,
+                TipoComprobante = tipoComprobante,
+                Serie = serie,
+                Correlativo = correlativo,
+                Itbis = itbis,
+                Estado = estado
+            };
 
             var ListaDetalles = new List<DdetalleIngreso>();
 
@@ -36,38 +40,55 @@ namespace CapaNegocio
 
                 ListaDetalles.Add(detalleIngreso);
             }
-            return Obj.Insertar(Obj, ListaDetalles);
+            return Ingreso.Insertar(Ingreso, ListaDetalles);
         }
+        #endregion
 
-        //Metodo Anular que llama al mentodo Anular de la clase Dingreso de la CapaDatos
+
+        #region Anular
+
         public static string Anular(int idIngreso)
         {
-            Dingreso Obj = new Dingreso();
-            Obj.IdIngreso = idIngreso;
-            return Obj.Anular(Obj);
-        }
+            Dingreso Ingreso = new Dingreso()
+            {
+                IdIngreso = idIngreso
+            };
 
-        //Metodo Mostrar que llama al mentodo Mostrar de la clase Dingreso de la CapaDatos
+            return Ingreso.Anular(Ingreso);
+        }
+        #endregion
+
+
+        #region Mostrar
+
         public static DataTable Mostrar()
         {
             return new Dingreso().Mostrar();
         }
 
+        #endregion
 
-        //Metodo BuscarFechas que llama al mentodo BuscarFechas de la clase Dingreso de la CapaDatos
+
+        #region BuscarFecha
+
         public static DataTable BuscarFechas(string fechaInicio, string fechaFin)
         {
-            Dingreso Obj = new Dingreso();
-            return Obj.BuscarFechas(fechaInicio, fechaFin);
+            Dingreso Ingreso = new Dingreso();
+
+            return Ingreso.BuscarFechas(fechaInicio, fechaFin);
         }
+        #endregion
 
 
-        //Metodo BucarNombre que llama al mentodo BucarNombre de la clase Dingreso de la CapaDatos
+        #region MostrarDetalles
+
         public static DataTable MostrarDetalles(string textoBuscar)
         {
-            Dingreso Obj = new Dingreso();
-            return Obj.MostrarDetalles(textoBuscar);
+            Dingreso Ingreso = new Dingreso();
+
+            return Ingreso.MostrarDetalles(textoBuscar);
         }
+        #endregion
 
     }
 }
